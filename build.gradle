@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.brique'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.1.1'
+    testImplementation 'org.mockito:mockito-inline:5.1.1'
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs += '-Dnet.bytebuddy.experimental=true'
+    jvmArgs += '-XX:+EnableDynamicAgentLoading'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
