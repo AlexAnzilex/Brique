@@ -13,6 +13,12 @@ public class BoardTest {
         assertEquals(15, board.getRows());
         assertEquals(15, board.getCols());
     }
+
+    @Test
+    public void cellShouldBeFreeAfterBoardCreation() {
+        Board board = new Board();
+        assertTrue(board.isFree(0, 0));
+    }
 }
 
 
