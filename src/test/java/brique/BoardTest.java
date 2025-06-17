@@ -1,0 +1,18 @@
+package brique;
+
+import brique.Board;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BoardTest {
+
+    @Test
+    public void boardShouldHaveDefaultSize15x15() {
+        Board board = new Board();
+        assertEquals(15, board.getRows());
+        assertEquals(15, board.getCols());
+    }
+}
+
+

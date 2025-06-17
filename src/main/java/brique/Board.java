@@ -1,6 +1,17 @@
-package brique.model;
+package brique;
 
 public class Board {
-    // empty for now
+    private final int rows = 15;
+    private final int cols = 15;
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
 }
+
+
 
