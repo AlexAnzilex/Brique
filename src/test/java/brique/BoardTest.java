@@ -26,6 +26,16 @@ public class BoardTest {
         assertEquals(10, board.getRows());
         assertEquals(10, board.getCols());
     }
+
+    @Test
+    public void accessingOutOfBoundsPositionShouldThrow() {
+        Board board = new Board();
+
+        assertThrows(IndexOutOfBoundsException.class, () -> board.isFree(-1, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> board.isFree(0, -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> board.isFree(0, 15));
+        assertThrows(IndexOutOfBoundsException.class, () -> board.isFree(15, 0));
+    }
 }
 
 
