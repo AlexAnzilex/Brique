@@ -1,18 +1,24 @@
 package brique;
 
 public class Board {
-    private final int rows = 15;
-    private final int cols = 15;
+    private final int rows;
+    private final int cols;
     private final Player[][] grid;
     private final Player defaultPlayer = new Player("None");
 
-    public Board() {
-        grid = new Player[rows][cols];
+    public Board(int size) {
+        this.rows = size;
+        this.cols = size;
+        this.grid = new Player[rows][cols];
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 grid[r][c] = defaultPlayer;
             }
         }
+    }
+
+    public Board() {
+        this(15); // default to 15×15
     }
 
     public int getRows() {

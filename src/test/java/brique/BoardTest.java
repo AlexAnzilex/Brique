@@ -19,6 +19,13 @@ public class BoardTest {
         Board board = new Board();
         assertTrue(board.isFree(0, 0));
     }
+
+    @Test
+    public void boardShouldSupportCustomSquareSize() {
+        Board board = new Board(10);
+        assertEquals(10, board.getRows());
+        assertEquals(10, board.getCols());
+    }
 }
 
 
