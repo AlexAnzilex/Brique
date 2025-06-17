@@ -7,7 +7,7 @@ This file tracks test cases, design notes, and refactoring tasks for the Brique 
 ## 🏁️ Cell / Board
 
 - [x] Dimension of the board is correct
-- [ ] Invalid moves are rejected (occupied cells and out-of-bounds).
+- [x] Invalid moves are rejected (occupied cells and out-of-bounds).
 - [ ] Board updates correctly after each move.
 
 ---

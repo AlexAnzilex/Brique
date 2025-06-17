@@ -30,8 +30,12 @@ public class Board {
     }
 
     public boolean isFree(int row, int col) {
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            throw new IndexOutOfBoundsException("Invalid position (" + row + "," + col + ")");
+        }
         return grid[row][col].equals(defaultPlayer);
     }
+
 
 }
 
