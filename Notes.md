@@ -14,6 +14,7 @@ This file tracks test cases, design notes, and refactoring tasks for the Brique 
 
 ## 🕹️ Player
 
+- [x] Two players can't have the same name, but if they do, they are the same player
 - [ ] Black always starts the game.
 - [ ] Turn alternates correctly between players.
 - [ ] Pie rule available to White only on turn 2.
