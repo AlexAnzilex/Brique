@@ -52,7 +52,7 @@ public class GameControllerTest {
 
         GameController game = new GameController(player_1,player_2);
 
-        assertDoesNotThrow(() -> game.currentTurn());
+        assertEquals(1, game.currentTurn());
     }
 
 
