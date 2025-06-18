@@ -1,4 +1,4 @@
-package brique;
+package brique.model;
 
 public class Player {
     private final String name;
