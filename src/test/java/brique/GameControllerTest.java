@@ -66,4 +66,16 @@ public class GameControllerTest {
         game.setTurnForTest(2);
         assertEquals(player_2, game.currentPlayer());
     }
+
+    @Test
+    public void playerCanPlaceStoneFreeCell() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        game.makeMove(0,0);
+
+        assertEquals(player_1, game.board().getPlayerAt(0,0));
+
+    }
 }

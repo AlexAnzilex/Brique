@@ -16,7 +16,7 @@ public class GameController {
         this.turn = 1;
     }
 
-    public Object currentPlayer() {
+    public Player currentPlayer() {
         return (turn % 2 == 1) ? firstPlayer : secondPlayer;
     }
 
@@ -30,5 +30,9 @@ public class GameController {
 
     public void setTurnForTest(int t) {
         this.turn = t;
+    }
+
+    public void makeMove(int row, int col) {
+        board.placeStone(row, col, currentPlayer());
     }
 }
