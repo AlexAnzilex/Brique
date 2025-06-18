@@ -34,5 +34,6 @@ public class GameController {
 
     public void makeMove(int row, int col) {
         board.placeStone(row, col, currentPlayer());
+        turn++;
     }
 }

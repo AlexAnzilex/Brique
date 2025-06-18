@@ -78,4 +78,17 @@ public class GameControllerTest {
         assertEquals(player_1, game.board().getPlayerAt(0,0));
 
     }
+
+    @Test
+    public void turnIncreasesAfterTurn() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        assertEquals(1, game.currentTurn());
+        game.makeMove(0,0);
+        assertEquals(2, game.currentTurn());
+        game.makeMove(0,1);
+        assertEquals(3, game.currentTurn());
+    }
 }
