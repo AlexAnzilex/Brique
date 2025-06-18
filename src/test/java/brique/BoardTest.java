@@ -42,6 +42,16 @@ public class BoardTest {
         Exception e4 = assertThrows(IndexOutOfBoundsException.class, () -> board.isFree(15, 0));
         assertEquals("Invalid position (15,0)", e4.getMessage());
     }
+
+    @Test
+    public void positionPlayerInFreePlace() {
+        Board board = new Board();
+        Player test = new  Player("Test");
+
+        assertTrue(board.isFree(0, 0));
+        board.placePlayer(0, 0, test);
+        assertFalse(board.isFree(0, 0));
+    }
 }
 
 

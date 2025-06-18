@@ -37,6 +37,9 @@ public class Board {
     }
 
 
+    public void placePlayer(int row, int col, Player player) {
+        grid[row][col] = player;
+    }
 }
 
 
