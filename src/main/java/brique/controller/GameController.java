@@ -7,7 +7,7 @@ public class GameController {
     private final Player firstPlayer;
     private final Player secondPlayer;
     private final Board board;
-    private final int turn;
+    private int turn;
 
     public GameController(Player player_1, Player player_2) {
         this.firstPlayer = player_1;
@@ -17,7 +17,7 @@ public class GameController {
     }
 
     public Object currentPlayer() {
-        return firstPlayer;
+        return (turn % 2 == 1) ? firstPlayer : secondPlayer;
     }
 
     public Board board() {
@@ -26,5 +26,9 @@ public class GameController {
 
     public int currentTurn() {
         return turn;
+    }
+
+    public void setTurnForTest(int t) {
+        this.turn = t;
     }
 }

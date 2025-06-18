@@ -55,5 +55,15 @@ public class GameControllerTest {
         assertEquals(1, game.currentTurn());
     }
 
+    @Test
+    public void alternatePlayerTurn() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
 
+        assertEquals(player_1, game.currentPlayer());
+
+        game.setTurnForTest(2);
+        assertEquals(player_2, game.currentPlayer());
+    }
 }
