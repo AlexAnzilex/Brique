@@ -18,4 +18,14 @@ public class GameControllerTest {
 
         assertEquals(player_1, gamecontroller.currentPlayer());
     }
+
+    @Test
+    public void boardInitialized() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+
+        GameController gamecontroller = new GameController(player_1,player_2);
+
+        assertNotNull(gamecontroller.board());
+    }
 }
