@@ -38,6 +38,9 @@ public class Board {
 
 
     public void placePlayer(int row, int col, Player player) {
+        if (!isFree(row, col)) {
+            throw new IllegalArgumentException("Cell (" + row + "," + col + ") is already occupied");
+        }
         grid[row][col] = player;
     }
 }

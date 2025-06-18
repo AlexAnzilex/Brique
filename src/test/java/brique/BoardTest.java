@@ -46,11 +46,12 @@ public class BoardTest {
     @Test
     public void positionPlayerInFreePlace() {
         Board board = new Board();
-        Player test = new  Player("Test");
+        Player player_1 = new  Player("Player_1");
+        Player player_2 = new  Player("Player_2");
 
-        assertTrue(board.isFree(0, 0));
-        board.placePlayer(0, 0, test);
-        assertFalse(board.isFree(0, 0));
+        board.placePlayer(0, 0, player_1);
+        assertThrows(IllegalArgumentException.class, () -> board.placePlayer(0, 0, player_2));
+
     }
 }
 
