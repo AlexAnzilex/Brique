@@ -58,16 +58,28 @@ public class BoardTest {
         }
     }
 
+
     @Test
     public void positionPlayerInFreePlace() {
         Board board = new Board();
         Player player_1 = new  Player("Player_1");
         Player player_2 = new  Player("Player_2");
 
-        board.placeStone(0, 0, player_1);
-        assertThrows(IllegalArgumentException.class, () -> board.placeStone(0, 0, player_2));
+        board.placePlayer(0, 0, player_1);
+        assertThrows(IllegalArgumentException.class, () -> board.placePlayer(0, 0, player_2));
 
     }
+
+    @Test
+    public void positionPlayerIsCorrect() {
+        Board board = new Board();
+        Player player = new Player("Player");
+
+        board.placePlayer(0, 0, player);
+        assertEquals(player, board.getPlayerAt(0,0));
+    }
+
+
 
 
 }

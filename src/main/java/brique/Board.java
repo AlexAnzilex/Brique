@@ -37,11 +37,15 @@ public class Board {
     }
 
 
-    public void placeStone(int row, int col, Player player) {
+    public void placePlayer(int row, int col, Player player) {
         if (!isFree(row, col)) {
             throw new IllegalArgumentException("Cell (" + row + "," + col + ") is already occupied");
         }
         grid[row][col] = player;
+    }
+
+    public Player getPlayerAt(int row, int col) {
+        return grid[row][col];
     }
 }
 
