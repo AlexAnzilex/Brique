@@ -91,4 +91,15 @@ public class GameControllerTest {
         game.makeMove(0,1);
         assertEquals(3, game.currentTurn());
     }
+
+    @Test
+    public void currentPlayerChangeAfterMove() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        assertEquals(player_1, game.currentPlayer());
+        game.makeMove(0,0);
+        assertEquals(player_2, game.currentPlayer());
+    }
 }
