@@ -36,6 +36,6 @@ public class GameController {
     public boolean makeMove(Move move) {
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
-        return true;
+        return !move.getPlayer().equals(currentPlayer());
     }
 }
