@@ -117,11 +117,12 @@ public class GameControllerTest {
 
     @Test
     public void placeStoneOnOccupiedCell() {
-        Board board = new Board();
-        Player player = new Player("Player");
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
 
-        board.placeStone(0,0,player);
+        assertTrue(game.makeMove(new Move(0,0,player_1)));
 
-        assertThrows(IllegalArgumentException.class, () -> board.placeStone(0,0,player));
+        assertFalse(game.makeMove(new Move(0,0,player_2)));
     }
 }
