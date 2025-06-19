@@ -4,6 +4,7 @@ import brique.controller.GameController;
 import brique.model.Board;
 import brique.model.Move;
 import brique.model.Player;
+import brique.model.UnadmissibleMove;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,7 +70,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void playerCanPlaceStoneFreeCell() {
+    public void playerCanPlaceStoneFreeCell() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
@@ -81,7 +82,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void turnIncreasesAfterTurn() {
+    public void turnIncreasesAfterTurn() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
@@ -94,7 +95,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void currentPlayerChangeAfterMove() {
+    public void currentPlayerChangeAfterMove() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
@@ -105,7 +106,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void moveWrongIsRejected() {
+    public void moveWrongIsRejected() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
@@ -116,13 +117,13 @@ public class GameControllerTest {
     }
 
     @Test
-    public void placeStoneOnOccupiedCell() {
+    public void placeStoneOnOccupiedCell() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        assertTrue(game.makeMove(new Move(0,0,player_1)));
+        assertDoesNotThrow(() -> game.makeMove(new Move(0,0,player_1)));
+        assertThrows(UnadmissibleMove.class, () -> game.makeMove(new Move(0,0,player_2)));
 
-        assertFalse(game.makeMove(new Move(0,0,player_2)));
     }
 }

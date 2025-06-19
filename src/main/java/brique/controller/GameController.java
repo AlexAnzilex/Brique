@@ -3,6 +3,7 @@ package brique.controller;
 import brique.model.Board;
 import brique.model.Move;
 import brique.model.Player;
+import brique.model.UnadmissibleMove;
 
 public class GameController {
     private final Player firstPlayer;
@@ -33,12 +34,12 @@ public class GameController {
         this.turn = t;
     }
 
-    public boolean makeMove(Move move) {
+    public boolean makeMove(Move move) throws UnadmissibleMove{
         if (!move.getPlayer().equals(currentPlayer())) {
-            return false;
+            throw new UnadmissibleMove(move.getPlayer() + " is not your turn!");
         }
         if (!board.isFree(move.getRow(), move.getCol())){
-            return false;
+            throw new UnadmissibleMove("The cell (" + move.getRow() + move.getCol() + ") is already occupied!");
         }
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
