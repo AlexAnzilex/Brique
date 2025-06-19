@@ -1,6 +1,7 @@
 package brique.controller;
 
 import brique.model.Board;
+import brique.model.Move;
 import brique.model.Player;
 
 public class GameController {
@@ -32,8 +33,8 @@ public class GameController {
         this.turn = t;
     }
 
-    public void makeMove(int row, int col) {
-        board.placeStone(row, col, currentPlayer());
+    public void makeMove(Move move) {
+        board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
     }
 }
