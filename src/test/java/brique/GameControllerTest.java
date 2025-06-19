@@ -114,4 +114,14 @@ public class GameControllerTest {
         boolean result = game.makeMove(invalidMove);
         assertFalse(result);
     }
+
+    @Test
+    public void placeStoneOnOccupiedCell() {
+        Board board = new Board();
+        Player player = new Player("Player");
+
+        board.placeStone(0,0,player);
+
+        assertThrows(IllegalArgumentException.class, () -> board.placeStone(0,0,player));
+    }
 }
