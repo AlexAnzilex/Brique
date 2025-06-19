@@ -112,8 +112,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
 
         Move invalidMove = new Move(0,0,player_2);
-        boolean result = game.makeMove(invalidMove);
-        assertFalse(result);
+        assertThrows(UnadmissibleMove.class, () -> game.makeMove(invalidMove));
     }
 
     @Test
