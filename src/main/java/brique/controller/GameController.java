@@ -37,6 +37,9 @@ public class GameController {
         if (!move.getPlayer().equals(currentPlayer())) {
             return false;
         }
+        if (!board.isFree(move.getRow(), move.getCol())){
+            return false;
+        }
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
         return true;
