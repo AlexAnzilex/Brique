@@ -74,7 +74,7 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove(new Move(0,0));
+        assertTrue(game.makeMove(new Move(0,0)));
 
         assertEquals(player_1, game.board().getPlayerAt(0,0));
 
@@ -87,9 +87,9 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
 
         assertEquals(1, game.currentTurn());
-        game.makeMove(new Move(0,0));
+        assertTrue(game.makeMove(new Move(0,0)));
         assertEquals(2, game.currentTurn());
-        game.makeMove(new Move(0,1));
+        assertTrue(game.makeMove(new Move(0,1)));
         assertEquals(3, game.currentTurn());
     }
 
@@ -100,7 +100,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
 
         assertEquals(player_1, game.currentPlayer());
-        game.makeMove(new Move(0,0));
+        assertTrue(game.makeMove(new Move(0,0)));
         assertEquals(player_2, game.currentPlayer());
     }
 }

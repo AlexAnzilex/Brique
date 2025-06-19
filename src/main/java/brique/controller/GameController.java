@@ -33,8 +33,9 @@ public class GameController {
         this.turn = t;
     }
 
-    public void makeMove(Move move) {
+    public boolean makeMove(Move move) {
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
+        return true;
     }
 }
