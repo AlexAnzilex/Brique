@@ -103,4 +103,15 @@ public class GameControllerTest {
         assertTrue(game.makeMove(new Move(0,0, game.currentPlayer())));
         assertEquals(player_2, game.currentPlayer());
     }
+
+    @Test
+    public void moveWrongIsRejected() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        Move invalidMove = new Move(0,0,player_2);
+        boolean result = game.makeMove(invalidMove);
+        assertFalse(result);
+    }
 }
