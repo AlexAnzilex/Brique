@@ -34,8 +34,11 @@ public class GameController {
     }
 
     public boolean makeMove(Move move) {
+        if (!move.getPlayer().equals(currentPlayer())) {
+            return false;
+        }
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
         turn++;
-        return !move.getPlayer().equals(currentPlayer());
+        return true;
     }
 }
