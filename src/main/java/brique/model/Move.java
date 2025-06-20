@@ -21,5 +21,5 @@ public class Move {
     public Player getPlayer() {
         return player;
     }
-    public boolean isPie() {return pie;}
+    public boolean isPieMove() {return pie;}
 }

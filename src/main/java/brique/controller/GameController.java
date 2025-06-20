@@ -35,6 +35,25 @@ public class GameController {
     }
 
     public boolean makeMove(Move move) throws UnadmissibleMove{
+        if (move.isPieMove()){
+            if (turn != 2){
+                throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
+            }
+            if (!move.getPlayer().equals(secondPlayer)){
+                throw new UnadmissibleMove("Only the " + secondPlayer + " can use the Pie Rule in turn two");
+            }
+            int row = move.getRow();
+            int col = move.getCol();
+
+
+            if (!board.getPlayerAt(row, col ).equals(firstPlayer)){
+                throw new UnadmissibleMove("Can't play pie move in position (" + row + "," + col + ")");
+            }
+
+            board.placeStone(row, col, secondPlayer);
+            turn ++;
+            return true;
+        }
         if (!move.getPlayer().equals(currentPlayer())) {
             throw new UnadmissibleMove(move.getPlayer() + " is not your turn!");
         }
