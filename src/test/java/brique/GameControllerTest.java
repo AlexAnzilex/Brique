@@ -125,4 +125,18 @@ public class GameControllerTest {
         assertThrows(UnadmissibleMove.class, () -> game.makeMove(new Move(0,0,player_2)));
 
     }
+
+    @Test
+    public void pieMoveFailIfNotTurn2()  throws UnadmissibleMove {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        game.makeMove(new Move(1,1,player_1));
+
+        Move WrongMove = new Move(2, 2, player_1, true);
+
+        assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));
+
+    }
 }
