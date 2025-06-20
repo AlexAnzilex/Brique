@@ -36,6 +36,8 @@ public class GameController {
 
     public boolean makeMove(Move move) throws UnadmissibleMove{
         if (move.isPieMove()){
+            System.out.println(">>> Entrato in pie move");
+
             if (turn != 2){
                 throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
             }
@@ -50,7 +52,7 @@ public class GameController {
                 throw new UnadmissibleMove("Can't play pie move in position (" + row + "," + col + ")");
             }
 
-            board.placeStone(row, col, secondPlayer);
+            board.PlaceStonePieRule(row, col, secondPlayer, move.isPieMove());
             turn ++;
             return true;
         }

@@ -1,5 +1,7 @@
 package brique.model;
 
+import brique.controller.GameController;
+
 public class Board {
     private final int rows;
     private final int cols;
@@ -43,6 +45,10 @@ public class Board {
         }
         grid[row][col] = player;
     }
+    public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {
+        grid[row][col] = player;
+    }
+
 
     public Player getPlayerAt(int row, int col) {
         return grid[row][col];

@@ -6,26 +6,27 @@ public class Move {
     private final Player player;
     private final boolean pieMove;
 
-    public Move(int row, int col, Player player, boolean pieMove) {
-        this.row = row;
-        this.col = col;
-        this.player = player;
-        this.pieMove = pieMove;
-    }
+
     public Move(int row, int col, Player player) {
         this.row = row;
         this.col = col;
         this.player = player;
         this.pieMove = false;
     }
+
+    public Move(int row, int col, Player player, boolean pieMove) {
+        this.row = row;
+        this.col = col;
+        this.player = player;
+        this.pieMove = pieMove;
+    }
+
     public int getRow() {
         return row;
     }
     public int getCol() {
         return col;
     }
-    public Player getPlayer() {
-        return player;
-    }
+    public Player getPlayer() {return player;}
     public boolean isPieMove() {return pieMove;}
 }
