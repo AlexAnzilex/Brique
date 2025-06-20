@@ -139,4 +139,18 @@ public class GameControllerTest {
         assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));
 
     }
+
+    @Test
+    public void pieRuleFailAfterTurnTwo() throws UnadmissibleMove {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        game.makeMove(new Move(0,0,player_1));
+        game.makeMove(new Move(2,2,player_2));
+        game.makeMove(new Move(1,1,player_1));
+        Move latePieMove= new Move(0,0,player_2, true);
+
+        assertThrows(UnadmissibleMove.class, () -> game.makeMove(latePieMove));
+    }
 }
