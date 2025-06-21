@@ -12,10 +12,11 @@ public class Player {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Player player)) return false;
-        return name.equals(player.name);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Player other = (Player) obj;
+        return this.name.equals(other.name);
     }
 
     @Override

@@ -18,11 +18,11 @@ public class EscortRuleEngine {
     }
 
     private void checkNorthEastEscortRule(int targetRow, int targetCol, Player player) {
-        if(!board.withinBounds(targetRow, targetCol)) return;
+        if(!board.boundsWithin(targetRow, targetCol)) return;
 
         Player cellPlayer = board.getPlayerAt(targetRow, targetCol);
         if ((targetRow + targetCol) % 2 == 0 && player.equals(cellPlayer)){
-            board.PlaceStoneEscortRule(targetRow - 1, targetCol, player);
+            board.PlaceStoneEscortRule(targetRow , targetCol-1, player);
         }
         else if ((targetRow + targetCol) % 2 == 1 && player.equals(cellPlayer)){
             board.PlaceStoneEscortRule(targetRow + 1, targetCol, player);
@@ -30,11 +30,11 @@ public class EscortRuleEngine {
 
     }
     private void checkSouthWestEscortRule(int targetRow, int targetCol, Player player) {
-        if(!board.withinBounds(targetRow, targetCol)) return;
+        if(!board.boundsWithin(targetRow, targetCol)) return;
 
         Player cellPlayer = board.getPlayerAt(targetRow, targetCol);
         if ((targetRow + targetCol) % 2 == 0 && player.equals(cellPlayer)){
-            board.PlaceStoneEscortRule(targetRow, targetCol - 1 , player);
+            board.PlaceStoneEscortRule(targetRow - 1, targetCol, player);
         }
         else if ((targetRow + targetCol) % 2 == 1 && player.equals(cellPlayer)){
             board.PlaceStoneEscortRule(targetRow, targetCol + 1, player);

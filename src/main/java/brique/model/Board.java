@@ -61,7 +61,7 @@ public class Board {
         return grid[row][col];
     }
 
-    public boolean withinBounds(int row, int col) {
+    public boolean boundsWithin(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
 
