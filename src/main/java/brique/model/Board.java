@@ -48,11 +48,24 @@ public class Board {
     public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {
         grid[row][col] = player;
     }
+    public void PlaceStoneEscortRule(int row, int col, Player player) {
+        Player current = getPlayerAt(row, col);
+        if (player.equals(current)) {
+            throw new IllegalArgumentException("You already have a stone at (" + row + "," + col + ")");
+        }
+        grid[row][col] = player;
+    }
 
 
     public Player getPlayerAt(int row, int col) {
         return grid[row][col];
     }
+
+    public boolean withinBounds(int row, int col) {
+        return row >= 0 && row < rows && col >= 0 && col < cols;
+    }
+
+
 }
 
 

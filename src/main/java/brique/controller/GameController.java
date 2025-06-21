@@ -1,14 +1,12 @@
 package brique.controller;
 
-import brique.model.Board;
-import brique.model.Move;
-import brique.model.Player;
-import brique.model.UnadmissibleMove;
+import brique.model.*;
 
 public class GameController {
     private final Player firstPlayer;
     private final Player secondPlayer;
     private final Board board;
+    private final EscortRuleEngine escortEngine;
     private int turn;
 
     public GameController(Player player_1, Player player_2) {
@@ -16,6 +14,7 @@ public class GameController {
         this.secondPlayer = player_2;
         this.board = new Board();
         this.turn = 1;
+        this.escortEngine = new EscortRuleEngine(board);
     }
 
     public Player currentPlayer() {
@@ -62,7 +61,10 @@ public class GameController {
             throw new UnadmissibleMove("The cell (" + move.getRow() + move.getCol() + ") is already occupied!");
         }
         board.placeStone(move.getRow(), move.getCol(), currentPlayer());
+        escortEngine.applyRules(move);
         turn++;
         return true;
     }
+
+
 }
