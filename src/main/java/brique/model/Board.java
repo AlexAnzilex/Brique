@@ -58,6 +58,7 @@ public class Board {
 
 
     public Player getPlayerAt(int row, int col) {
+        boundsWithin(row, col);
         return grid[row][col];
     }
 
