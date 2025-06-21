@@ -36,7 +36,6 @@ public class GameController {
 
     public boolean makeMove(Move move) throws UnadmissibleMove{
         if (move.isPieMove()){
-            System.out.println(">>> Entrato in pie move");
 
             if (turn != 2){
                 throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
