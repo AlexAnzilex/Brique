@@ -190,4 +190,17 @@ public class GameControllerTest {
         assertEquals(player_1, game.board().getPlayerAt(7,8));
 
     }
+    @Test
+    public void escortRulePlaceEat() throws UnadmissibleMove {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        game.makeMove( new Move(7, 9, player_1));
+        game.makeMove( new Move(7, 8, player_2));
+        game.makeMove( new Move(8, 8, player_1));
+
+        assertEquals(player_1, game.board().getPlayerAt(7,8));
+
+    }
 }
