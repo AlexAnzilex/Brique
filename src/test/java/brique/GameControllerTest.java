@@ -240,4 +240,17 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
         assertFalse(game.winBoard(), "No winner at start of the game");
     }
+
+    @Test
+    public void noWinAfterNonConnectingMoves()  throws UnadmissibleMove {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+
+        game.makeMove( new Move(0, 0, game.currentPlayer()));
+        game.makeMove( new Move(7, 7, game.currentPlayer()));
+        game.makeMove( new Move(1, 0, game.currentPlayer()));
+
+        assertFalse(game.winBoard());
+    }
 }
