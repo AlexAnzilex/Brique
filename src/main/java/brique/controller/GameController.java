@@ -39,8 +39,8 @@ public class GameController {
             if (turn != 2){
                 throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
             }
-            if (!move.getPlayer().equals(secondPlayer)){
-                throw new UnadmissibleMove("Only the " + secondPlayer + " can use the Pie Rule in turn two");
+            if (!move.getPlayer().name().equals(secondPlayer.name())){
+                throw new UnadmissibleMove("Only the " + secondPlayer.name() + " can use the Pie Rule in turn two");
             }
             int row = move.getRow();
             int col = move.getCol();
@@ -69,6 +69,46 @@ public class GameController {
 
     public boolean winBoard() {
 
+        return bottomConnection(firstPlayer);
+    }
+
+    private boolean bottomConnection(Player player) {
+        int rows = board().getRows();
+        int cols = board().getCols();
+
+        boolean[][] visited = new  boolean[rows][cols];
+        java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
+
+        for (int col = 0; col < cols; col++) {
+            if (board.getPlayerAt(0, col).equals(player)) {
+                queue.push(new int[]{0, col});
+                visited[0][col] = true;
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int[] cell = queue.pop();
+            int row = cell[0];
+            int col = cell[1];
+
+            if(row==rows-1) {
+                return true;
+            }
+
+            int[][] neighbour = {{row - 1, col}, {row + 1, col}, {row, col-1}, {row, col+1}};
+            for (int[] n :  neighbour) {
+                int r = n[0];
+                int c = n[1];
+                if (r>= 0 && r < rows && c >= 0 && c < cols
+                        && !visited[r][c]
+                        && board.getPlayerAt(r, c).equals(player)) {
+                    visited[r][c] = true;
+                    queue.push(new int[]{r, c});
+
+                }
+            }
+
+        }
         return false;
     }
 }

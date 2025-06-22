@@ -5,6 +5,7 @@ import brique.model.Board;
 import brique.model.Move;
 import brique.model.Player;
 import brique.model.UnadmissibleMove;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -252,5 +253,18 @@ public class GameControllerTest {
         game.makeMove( new Move(1, 0, game.currentPlayer()));
 
         assertFalse(game.winBoard());
+    }
+
+    @Test
+    public void player1WinByConnectingTopBottom() {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+        Board board = game.board();
+        for (int row=0; row<board.getRows(); row++) {
+            board.placeStone(row,0, player_1);
+        }
+
+        assertTrue(game.winBoard());
     }
 }
