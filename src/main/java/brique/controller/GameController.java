@@ -91,7 +91,7 @@ public class GameController {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 if (seed.test(row,col) && board.getPlayerAt(row, col).equals(player)) {
-                    queue.push(new int[]{0, col});
+                    queue.push(new int[]{row, col});
                     visited[row][col] = true;
                 }
             }
