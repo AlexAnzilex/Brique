@@ -69,22 +69,31 @@ public class GameController {
 
     public boolean winBoard() {
 
-         if (bottomConnection(firstPlayer)) return true;
-         return LeftRightConnection(secondPlayer);
+         if (goalWinner((r,c) -> r==0,
+                 (r, c) -> r==board.getRows()-1,
+                 firstPlayer)) return true;
+         return goalWinner((r,c) -> c==0,
+                 (r, c) -> c==board.getCols()-1,
+                 secondPlayer);
 
     }
 
-    private boolean LeftRightConnection(Player player) {
+    private boolean goalWinner(java.util.function.BiPredicate<Integer, Integer> seed,
+                                java.util.function.BiPredicate<Integer, Integer> goal,
+                                Player player)
+    {
         int rows = board().getRows();
         int cols = board().getCols();
 
         boolean[][] visited = new  boolean[rows][cols];
         java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
 
-        for (int row = 0; row < cols; row++) {
-            if (board.getPlayerAt(row, 0).equals(player)) {
-                queue.push(new int[]{row, 0});
-                visited[row][0] = true;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (seed.test(row,col) && board.getPlayerAt(row, col).equals(player)) {
+                    queue.push(new int[]{0, col});
+                    visited[row][col] = true;
+                }
             }
         }
 
@@ -93,7 +102,7 @@ public class GameController {
             int row = cell[0];
             int col = cell[1];
 
-            if(col==cols-1) {
+            if(goal.test(row,col)) {
                 return true;
             }
 
@@ -115,44 +124,4 @@ public class GameController {
     }
 
 
-
-    private boolean bottomConnection(Player player) {
-        int rows = board().getRows();
-        int cols = board().getCols();
-
-        boolean[][] visited = new  boolean[rows][cols];
-        java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
-
-        for (int col = 0; col < cols; col++) {
-            if (board.getPlayerAt(0, col).equals(player)) {
-                queue.push(new int[]{0, col});
-                visited[0][col] = true;
-            }
-        }
-
-        while (!queue.isEmpty()) {
-            int[] cell = queue.pop();
-            int row = cell[0];
-            int col = cell[1];
-
-            if(row==rows-1) {
-                return true;
-            }
-
-            int[][] neighbour = {{row - 1, col}, {row + 1, col}, {row, col-1}, {row, col+1}};
-            for (int[] n :  neighbour) {
-                int r = n[0];
-                int c = n[1];
-                if (r>= 0 && r < rows && c >= 0 && c < cols
-                        && !visited[r][c]
-                        && board.getPlayerAt(r, c).equals(player)) {
-                    visited[r][c] = true;
-                    queue.push(new int[]{r, c});
-
-                }
-            }
-
-        }
-        return false;
-    }
 }
