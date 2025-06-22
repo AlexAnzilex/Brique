@@ -267,4 +267,18 @@ public class GameControllerTest {
 
         assertTrue(game.winBoard());
     }
+
+    @Test
+    public void player2WinByConnectingLeftRight() throws UnadmissibleMove {
+        Player player_1 = new Player("Player_1");
+        Player player_2 = new Player("Player_2");
+        GameController game = new GameController(player_1,player_2);
+        Board board = game.board();
+
+        game.makeMove(new Move(5,5, game.currentPlayer()));
+        for (int col=0; col<board.getRows(); col++) {
+            board.placeStone(0, col, player_2);
+        }
+        assertTrue(game.winBoard());
+    }
 }

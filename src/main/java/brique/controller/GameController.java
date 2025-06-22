@@ -69,8 +69,52 @@ public class GameController {
 
     public boolean winBoard() {
 
-        return bottomConnection(firstPlayer);
+         if (bottomConnection(firstPlayer)) return true;
+         return LeftRightConnection(secondPlayer);
+
     }
+
+    private boolean LeftRightConnection(Player player) {
+        int rows = board().getRows();
+        int cols = board().getCols();
+
+        boolean[][] visited = new  boolean[rows][cols];
+        java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
+
+        for (int row = 0; row < cols; row++) {
+            if (board.getPlayerAt(row, 0).equals(player)) {
+                queue.push(new int[]{row, 0});
+                visited[row][0] = true;
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int[] cell = queue.pop();
+            int row = cell[0];
+            int col = cell[1];
+
+            if(col==cols-1) {
+                return true;
+            }
+
+            int[][] neighbour = {{row - 1, col}, {row + 1, col}, {row, col-1}, {row, col+1}};
+            for (int[] n :  neighbour) {
+                int r = n[0];
+                int c = n[1];
+                if (r>= 0 && r < rows && c >= 0 && c < cols
+                        && !visited[r][c]
+                        && board.getPlayerAt(r, c).equals(player)) {
+                    visited[r][c] = true;
+                    queue.push(new int[]{r, c});
+
+                }
+            }
+
+        }
+        return false;
+    }
+
+
 
     private boolean bottomConnection(Player player) {
         int rows = board().getRows();
