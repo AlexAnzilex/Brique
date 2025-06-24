@@ -1,0 +1,614 @@
+Index: src/test/java/brique/GameControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package brique;\n\nimport brique.controller.GameController;\nimport brique.model.Board;\nimport brique.model.Move;\nimport brique.model.Player;\nimport brique.model.UnadmissibleMove;\nimport org.junit.jupiter.api.BeforeEach;\nimport org.junit.jupiter.api.Test;\n\nimport static org.junit.jupiter.api.Assertions.*;\n\n\npublic class GameControllerTest {\n\n    @Test\n    public void firstPlayerStartsTheGame() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController gamecontroller = new GameController(player_1,player_2);\n\n        assertEquals(player_1, gamecontroller.currentPlayer());\n    }\n\n    @Test\n    public void boardInitialized() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n\n        GameController gamecontroller = new GameController(player_1,player_2);\n\n        assertNotNull(gamecontroller.board());\n    }\n\n    @Test\n    public void boardIsEmptyAtStart() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n\n        GameController game = new GameController(player_1,player_2);\n        Board board = game.board();\n\n        for (int row = 0; row< board.getRows(); row++) {\n            for (int col = 0; col < board.getCols(); col++) {\n                assertTrue(board.isFree(row, col),\n                        \"Expected cell (\" + row + \",\" + col + \") to be free\");\n            }\n        }\n    }\n\n    @Test\n    public void currentTurnCounter() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n\n        GameController game = new GameController(player_1,player_2);\n\n        assertEquals(1, game.currentTurn());\n    }\n\n    @Test\n    public void alternatePlayerTurn() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        assertEquals(player_1, game.currentPlayer());\n\n        game.setTurnForTest(2);\n        assertEquals(player_2, game.currentPlayer());\n    }\n\n    @Test\n    public void playerCanPlaceStoneFreeCell() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));\n\n        assertEquals(player_1, game.board().getPlayerAt(0,0));\n\n    }\n\n    @Test\n    public void turnIncreasesAfterTurn() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        assertEquals(1, game.currentTurn());\n        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));\n        assertEquals(2, game.currentTurn());\n        assertTrue(game.makeMove(new Move(0,1,game.currentPlayer())));\n        assertEquals(3, game.currentTurn());\n    }\n\n    @Test\n    public void currentPlayerChangeAfterMove() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        assertEquals(player_1, game.currentPlayer());\n        assertTrue(game.makeMove(new Move(0,0, game.currentPlayer())));\n        assertEquals(player_2, game.currentPlayer());\n    }\n\n    @Test\n    public void moveWrongIsRejected() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        Move invalidMove = new Move(0,0,player_2);\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(invalidMove));\n    }\n\n    @Test\n    public void placeStoneOnOccupiedCell() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        assertDoesNotThrow(() -> game.makeMove(new Move(0,0,player_1)));\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(new Move(0,0,player_2)));\n\n    }\n\n    @Test\n    public void pieRuleSuccess() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1, player_2);\n\n        game.makeMove(new Move(0, 0, player_1));\n        assertTrue(game.pieRuleAvailable());\n        game.applyPieMove();\n\n        Player new_player_1 = game.getFirstPlayer();\n        Player new_player_2 = game.getSecondPlayer();\n\n        assertEquals(player_2, new_player_1);\n        assertEquals(player_1, new_player_2);\n\n        assertEquals(game.currentPlayer(), new_player_2);\n        assertEquals(game.board().getPlayerAt(0,0), new_player_1);\n    }\n\n    @Test\n    public void pieMoveFailIfNotTurn2()  throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove(new Move(1,1,game.currentPlayer()));\n\n        game.makeMove(new Move(2, 2, game.currentPlayer()));\n\n        assertThrows(UnadmissibleMove.class, game::applyPieMove);\n\n\n    }\n\n\n    @Test\n    public void pieRuleWrongPosition() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove(new Move(6,6,player_1));\n        Move WrongMove = new Move(7,7,player_2, true);\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));\n    }\n\n    @Test\n    public void escortRulePlace() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove( new Move(7, 9, player_1));\n        game.makeMove( new Move(0, 0, player_2));\n        game.makeMove( new Move(8, 8, player_1));\n\n        assertEquals(player_1, game.board().getPlayerAt(7,8));\n\n    }\n    @Test\n    public void escortRulePlaceEat() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove( new Move(7, 9, player_1));\n        game.makeMove( new Move(7, 8, player_2));\n        game.makeMove( new Move(8, 8, player_1));\n\n        assertEquals(player_1, game.board().getPlayerAt(7,8));\n\n    }\n\n    @Test\n    public void escortRulePlaceOnBlackCell() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove( new Move(7, 8, player_1));\n        game.makeMove( new Move(0, 0, player_2));\n        game.makeMove( new Move(6, 9, player_1));\n\n        assertEquals(player_1, game.board().getPlayerAt(7,9));\n    }\n\n    @Test\n    public void doubleEscortMoveBlackCell()  throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove( new Move(6, 9, player_1));\n        game.makeMove( new Move(0, 0, player_2));\n        game.makeMove( new Move(8, 7, player_1));\n        game.makeMove( new Move(0, 1, player_2));\n        game.makeMove( new Move(7, 8, player_1));\n\n        assertEquals(player_1, game.board().getPlayerAt(7,9));\n        assertEquals(player_1, game.board().getPlayerAt(8,8));\n    }\n\n    @Test\n    public void noWinOnNewGame() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n        assertFalse(game.winBoard(), \"No winner at start of the game\");\n    }\n\n    @Test\n    public void noWinAfterNonConnectingMoves()  throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n\n        game.makeMove( new Move(0, 0, game.currentPlayer()));\n        game.makeMove( new Move(7, 7, game.currentPlayer()));\n        game.makeMove( new Move(1, 0, game.currentPlayer()));\n\n        assertFalse(game.winBoard());\n    }\n\n    @Test\n    public void player1NotWinForAStone() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1, player_2);\n        Board board = game.board();\n        for (int row = 0; row < board.getRows() - 1; row++) {\n            board.placeStone(new Move(row, 0, player_1));\n        }\n        assertFalse(game.winBoard());\n    }\n    @Test\n    public void player1WinByConnectingTopBottom() {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n        Board board = game.board();\n        for (int row=0; row<board.getRows(); row++) {\n            board.placeStone(new Move(row,0, player_1));\n        }\n        assertTrue(game.winBoard());\n    }\n\n    @Test\n    public void player2WinByConnectingLeftRight() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n        Board board = game.board();\n\n        game.makeMove(new Move(5,5, game.currentPlayer()));\n        for (int col=0; col<board.getRows(); col++) {\n            board.placeStone(new Move(0, col, player_2));\n        }\n        assertTrue(game.winBoard());\n    }\n    @Test\n    public void player2Win() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2);\n        Board board = game.board();\n\n        game.makeMove(new Move(5,5, game.currentPlayer()));\n        for (int col=0; col<board.getRows(); col++) {\n            board.placeStone(new Move(7, col, player_2));\n        }\n        assertTrue(game.winBoard());\n    }\n\n    @Test\n    public void player2SWin() throws UnadmissibleMove {\n        Player player_1 = new Player(\"Player_1\");\n        Player player_2 = new Player(\"Player_2\");\n        GameController game = new GameController(player_1,player_2, 7);\n        Board board = game.board();\n        int[][] pos_list = {\n                {1,0},{1,1},{1,2},{1,3},\n                                  {2,3},\n                      {3,1},{3,2},{3,3},\n                      {4,1},\n                      {5,1},{5,2},{5,3},{5,4},{5,5},{5,6}\n        };\n        game.makeMove(new Move(5,5, game.currentPlayer()));\n        for (int[] pos : pos_list) {\n            board.placeStone(new Move(pos[0], pos[1], player_2));\n        }\n        assertTrue(game.winBoard());\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/brique/GameControllerTest.java b/src/test/java/brique/GameControllerTest.java
+--- a/src/test/java/brique/GameControllerTest.java	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ b/src/test/java/brique/GameControllerTest.java	(date 1750777233603)
+@@ -314,7 +314,6 @@
+                       {4,1},
+                       {5,1},{5,2},{5,3},{5,4},{5,5},{5,6}
+         };
+-        game.makeMove(new Move(5,5, game.currentPlayer()));
+         for (int[] pos : pos_list) {
+             board.placeStone(new Move(pos[0], pos[1], player_2));
+         }
+Index: src/main/java/brique/controller/GameController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package brique.controller;\n\nimport brique.model.*;\n\npublic class GameController {\n    private Player firstPlayer;\n    private Player secondPlayer;\n    private final Board board;\n    private final EscortRuleEngine escortEngine;\n    private int turn;\n\n    public GameController(Player player_1, Player player_2, int dim) {\n        this.firstPlayer = player_1;\n        this.secondPlayer = player_2;\n        this.board = new Board(dim);\n        this.turn = 1;\n        this.escortEngine = new EscortRuleEngine(board);\n    }\n\n    public GameController(Player player_1, Player player_2) {\n        this.firstPlayer = player_1;\n        this.secondPlayer = player_2;\n        this.board = new Board();\n        this.turn = 1;\n        this.escortEngine = new EscortRuleEngine(board);\n    }\n\n    public Player getFirstPlayer() {\n        return firstPlayer;\n    }\n\n    public Player getSecondPlayer() {\n        return secondPlayer;\n    }\n\n    public Player currentPlayer() {\n        return (turn % 2 == 1) ? firstPlayer : secondPlayer;\n    }\n\n    public Board board() {\n        return board;\n    }\n\n    public int currentTurn() {\n        return turn;\n    }\n\n    public void setTurnForTest(int t) {\n        this.turn = t;\n    }\n\n    public boolean pieRuleAvailable(){return turn == 2;}\n\n    public void applyPieMove() throws UnadmissibleMove {\n        if (turn!=2) {\n            throw new UnadmissibleMove(\"Can't execute pie rule in turn \"+ turn);\n        }\n        if (!currentPlayer().equals(secondPlayer)) {\n            throw new UnadmissibleMove(\"Only the \" + secondPlayer.name() + \" can use the Pie Rule in turn two\");\n        }\n\n        int row=-1;\n        int col=-1;\n        search:\n        for (int i = 0; i < board.getRows(); i++){\n            for (int j = 0; j < board.getCols(); j++){\n                if (board.getPlayerAt(i,j).equals(firstPlayer)){\n                    row=i;\n                    col=j;\n                    break search;\n                }\n            }\n        }\n        if (row<0) throw new IllegalStateException(\"Did not find the first player in board\");\n        board.PlaceStonePieRule(row, col, secondPlayer, true);\n\n        Player tmp = firstPlayer;\n        firstPlayer = secondPlayer;\n        secondPlayer = tmp;\n\n    }\n\n    public boolean makeMove(Move move) throws UnadmissibleMove{\n        if (move.isPieMove()) throw new UnadmissibleMove(\"Use applyPieRule()\");\n        if (!move.getPlayer().equals(currentPlayer())) {\n            throw new UnadmissibleMove(move.getPlayer() + \" is not your turn!\");\n        }\n        if (!board.isFree(move.getRow(), move.getCol())){\n            throw new UnadmissibleMove(\"The cell (\" + move.getRow() + move.getCol() + \") is already occupied!\");\n        }\n        board.placeStone(move);\n        escortEngine.applyRules(move);\n        turn++;\n        return true;\n    }\n\n    public boolean winBoard() {\n\n         if (goalWinner((r,c) -> r==0,\n                 (r, c) -> r==board.getRows()-1,\n                 firstPlayer)) return true;\n         return goalWinner((r,c) -> c==0,\n                 (r, c) -> c==board.getCols()-1,\n                 secondPlayer);\n\n    }\n\n    private boolean goalWinner(java.util.function.BiPredicate<Integer, Integer> seed,\n                                java.util.function.BiPredicate<Integer, Integer> goal,\n                                Player player)\n    {\n        int rows = board().getRows();\n        int cols = board().getCols();\n\n        boolean[][] visited = new  boolean[rows][cols];\n        java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();\n\n        for (int row = 0; row < rows; row++) {\n            for (int col = 0; col < cols; col++) {\n                if (seed.test(row,col) && board.getPlayerAt(row, col).equals(player)) {\n                    queue.push(new int[]{row, col});\n                    visited[row][col] = true;\n                }\n            }\n        }\n\n        while (!queue.isEmpty()) {\n            int[] cell = queue.pop();\n            int row = cell[0];\n            int col = cell[1];\n\n            if(goal.test(row,col)) {\n                return true;\n            }\n\n            int[][] neighbour = {{row - 1, col}, {row + 1, col}, {row, col-1}, {row, col+1}};\n            for (int[] n :  neighbour) {\n                int r = n[0];\n                int c = n[1];\n                if (r>= 0 && r < rows && c >= 0 && c < cols\n                        && !visited[r][c]\n                        && board.getPlayerAt(r, c).equals(player)) {\n                    visited[r][c] = true;\n                    queue.push(new int[]{r, c});\n\n                }\n            }\n\n        }\n        return false;\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/brique/controller/GameController.java b/src/main/java/brique/controller/GameController.java
+--- a/src/main/java/brique/controller/GameController.java	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ b/src/main/java/brique/controller/GameController.java	(date 1750778240352)
+@@ -1,5 +1,5 @@
+ package brique.controller;
+-
++import brique.model.Move;
+ import brique.model.*;
+ 
+ public class GameController {
+@@ -60,19 +60,17 @@
+         }
+ 
+         int row=-1;
+-        int col=-1;
+         search:
+         for (int i = 0; i < board.getRows(); i++){
+             for (int j = 0; j < board.getCols(); j++){
+                 if (board.getPlayerAt(i,j).equals(firstPlayer)){
+                     row=i;
+-                    col=j;
++                    board.PlaceStonePieRule(new Move(i, j, secondPlayer));
+                     break search;
+                 }
+             }
+         }
+         if (row<0) throw new IllegalStateException("Did not find the first player in board");
+-        board.PlaceStonePieRule(row, col, secondPlayer, true);
+ 
+         Player tmp = firstPlayer;
+         firstPlayer = secondPlayer;
+@@ -96,18 +94,12 @@
+ 
+     public boolean winBoard() {
+ 
+-         if (goalWinner((r,c) -> r==0,
+-                 (r, c) -> r==board.getRows()-1,
+-                 firstPlayer)) return true;
+-         return goalWinner((r,c) -> c==0,
+-                 (r, c) -> c==board.getCols()-1,
+-                 secondPlayer);
++         if (goalWinner(firstPlayer)) return true;
++         return goalWinner(secondPlayer);
+ 
+     }
+ 
+-    private boolean goalWinner(java.util.function.BiPredicate<Integer, Integer> seed,
+-                                java.util.function.BiPredicate<Integer, Integer> goal,
+-                                Player player)
++    private boolean goalWinner(Player player)
+     {
+         int rows = board().getRows();
+         int cols = board().getCols();
+@@ -117,7 +109,7 @@
+ 
+         for (int row = 0; row < rows; row++) {
+             for (int col = 0; col < cols; col++) {
+-                if (seed.test(row,col) && board.getPlayerAt(row, col).equals(player)) {
++                if (player.equals(currentPlayer()) && board.getPlayerAt(row, col).equals(player)) {
+                     queue.push(new int[]{row, col});
+                     visited[row][col] = true;
+                 }
+@@ -129,7 +121,9 @@
+             int row = cell[0];
+             int col = cell[1];
+ 
+-            if(goal.test(row,col)) {
++            if(!board.boundsWithin(row, col) &&
++                    ( ( col == board.getCols()) && player.equals(secondPlayer))
++                    || (row == board.getRows()) && player.equals(firstPlayer) ) {
+                 return true;
+             }
+ 
+Index: src/main/java/brique/model/Board.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package brique.model;\n\nimport brique.controller.GameController;\n\npublic class Board {\n    private final int rows;\n    private final int cols;\n    private final Player[][] grid;\n    private final Player defaultPlayer = new Player(\"None\");\n\n    public Board(int size) {\n        this.rows = size;\n        this.cols = size;\n        this.grid = new Player[rows][cols];\n        for (int r = 0; r < rows; r++) {\n            for (int c = 0; c < cols; c++) {\n                grid[r][c] = defaultPlayer;\n            }\n        }\n    }\n\n    public Board() {\n        this(15); // default to 15×15\n    }\n\n    public int getRows() {\n        return rows;\n    }\n\n    public int getCols() {\n        return cols;\n    }\n\n    public boolean isFree(int row, int col) {\n        checkBounds(row, col);\n        return grid[row][col].equals(defaultPlayer);\n    }\n\n    public void placeStone(Move move) {\n        int col = move.getCol();\n        int row = move.getRow();\n        if (!isFree(row, col)) {\n            throw new IllegalArgumentException(\"Cell (\" + row + \",\" + col + \") is already occupied\");\n        }\n        grid[row][col] = move.getPlayer();\n    }\n\n    public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {\n        grid[row][col] = player;\n    }\n\n    public void PlaceStoneEscortRule(int row, int col, Player player) {\n        Player current = getPlayerAt(row, col);\n        if (player.equals(current)) {\n            throw new IllegalArgumentException(\"You already have a stone at (\" + row + \",\" + col + \")\");\n        }\n        grid[row][col] = player;\n    }\n\n    public Player getPlayerAt(int row, int col) {\n        boundsWithin(row, col);\n        return grid[row][col];\n    }\n\n    public boolean boundsWithin(int row, int col) {\n        return row >= 0 && row < rows && col >= 0 && col < cols;\n    }\n\n    private void checkBounds(int row, int col) {\n        if(!boundsWithin(row, col)) {\n            throw new IllegalArgumentException(\"Invalid position (\" + row + \",\" + col + \")\");\n        }\n    }\n\n\n}\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/brique/model/Board.java b/src/main/java/brique/model/Board.java
+--- a/src/main/java/brique/model/Board.java	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ b/src/main/java/brique/model/Board.java	(date 1750778240394)
+@@ -45,9 +45,7 @@
+         grid[row][col] = move.getPlayer();
+     }
+ 
+-    public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {
+-        grid[row][col] = player;
+-    }
++    public void PlaceStonePieRule(Move move) { grid[move.getRow()][move.getCol()] = move.getPlayer(); }
+ 
+     public void PlaceStoneEscortRule(int row, int col, Player player) {
+         Player current = getPlayerAt(row, col);
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ /dev/null	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
+@@ -1,28 +0,0 @@
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"eccd0ae8-9978-4013-8170-e1ed43453dab\" name=\"Changes\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 2\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2yeT13SvNUcOmfAHrpSZarhC603\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Gradle.BoardTest.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.alternatePlayerTurn.executor\": \"Debug\",\r\n    \"Gradle.GameControllerTest.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.pieMoveFailIfNotTurn2.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.pieRuleFailAfterTurnTwo.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.pieRuleSuccess.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.pieRuleWrong.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.player2Win.executor\": \"Run\",\r\n    \"Gradle.GameControllerTest.player2WinNotConnected.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Project\",\r\n    \"project.structure.proportion\": \"0.0\",\r\n    \"project.structure.side.proportion\": \"0.0\",\r\n    \"settings.editor.selected.configurable\": \"preferences.pluginManager\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"JUnit.GameControllerTest.player2SWin\">\r\n    <configuration name=\"BoardTest\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" value=\"\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\":test\" />\r\n            <option value=\"--tests\" />\r\n            <option value=\"&quot;brique.BoardTest&quot;\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>true</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"GameControllerTest\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" value=\"\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\":test\" />\r\n            <option value=\"--tests\" />\r\n            <option value=\"&quot;brique.GameControllerTest&quot;\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>true</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"GameControllerTest.player2WinNotConnected\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\r\n      <ExternalSystemSettings>\r\n        <option name=\"executionName\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\r\n        <option name=\"scriptParameters\" value=\"\" />\r\n        <option name=\"taskDescriptions\">\r\n          <list />\r\n        </option>\r\n        <option name=\"taskNames\">\r\n          <list>\r\n            <option value=\":test\" />\r\n            <option value=\"--tests\" />\r\n            <option value=\"&quot;brique.GameControllerTest.player2WinNotConnected&quot;\" />\r\n          </list>\r\n        </option>\r\n        <option name=\"vmOptions\" />\r\n      </ExternalSystemSettings>\r\n      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>\r\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\r\n      <DebugAllEnabled>false</DebugAllEnabled>\r\n      <RunAsTest>true</RunAsTest>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"GameControllerTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Brique.test\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"brique.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"brique\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"brique.GameControllerTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameControllerTest.player2SWin\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Brique.test\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"brique.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"brique\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"brique.GameControllerTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"player2SWin\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.GameControllerTest.player2SWin\" />\r\n        <item itemvalue=\"JUnit.GameControllerTest\" />\r\n        <item itemvalue=\"Gradle.BoardTest\" />\r\n        <item itemvalue=\"Gradle.GameControllerTest.player2WinNotConnected\" />\r\n        <item itemvalue=\"Gradle.GameControllerTest\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"eccd0ae8-9978-4013-8170-e1ed43453dab\" name=\"Changes\" comment=\"\" />\r\n      <created>1750193821358</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1750193821358</updated>\r\n      <workItem from=\"1750193822547\" duration=\"2831000\" />\r\n      <workItem from=\"1750233384327\" duration=\"26140000\" />\r\n      <workItem from=\"1750323945001\" duration=\"10599000\" />\r\n      <workItem from=\"1750371263119\" duration=\"523000\" />\r\n      <workItem from=\"1750405523348\" duration=\"2228000\" />\r\n      <workItem from=\"1750412724798\" duration=\"1943000\" />\r\n      <workItem from=\"1750423049197\" duration=\"4135000\" />\r\n      <workItem from=\"1750436832834\" duration=\"1455000\" />\r\n      <workItem from=\"1750493797653\" duration=\"20613000\" />\r\n      <workItem from=\"1750607199187\" duration=\"5330000\" />\r\n      <workItem from=\"1750684489069\" duration=\"5691000\" />\r\n      <workItem from=\"1750755136768\" duration=\"7245000\" />\r\n      <workItem from=\"1750769506527\" duration=\"900000\" />\r\n      <workItem from=\"1750771731283\" duration=\"2909000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 83e931dfa9e77d80d02484cee031714c406db463)
+-+++ b/.idea/workspace.xml	(date 1750775036368)
+-@@ -44,6 +44,8 @@
+-     "Gradle.GameControllerTest.pieRuleWrong.executor": "Run",
+-     "Gradle.GameControllerTest.player2Win.executor": "Run",
+-     "Gradle.GameControllerTest.player2WinNotConnected.executor": "Run",
+-+    "JUnit.GameControllerTest.executor": "Run",
+-+    "JUnit.GameControllerTest.player2SWin.executor": "Run",
+-     "RunOnceActivity.ShowReadmeOnStart": "true",
+-     "RunOnceActivity.git.unshallow": "true",
+-     "git-widget-placeholder": "main",
+-@@ -202,7 +204,7 @@
+-       <workItem from="1750684489069" duration="5691000" />
+-       <workItem from="1750755136768" duration="7245000" />
+-       <workItem from="1750769506527" duration="900000" />
+--      <workItem from="1750771731283" duration="2909000" />
+-+      <workItem from="1750771731283" duration="3280000" />
+-     </task>
+-     <servers />
+-   </component>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ /dev/null	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]" date="1750775091585" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/06/2025 16:24 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ /dev/null	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]" date="1750774401543" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/06/2025 16:13 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .gradle/buildOutputCleanup/cache.properties
+===================================================================
+diff --git a/.gradle/buildOutputCleanup/cache.properties b/.gradle/buildOutputCleanup/cache.properties
+deleted file mode 100644
+--- a/.gradle/buildOutputCleanup/cache.properties	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ /dev/null	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
+@@ -1,2 +0,0 @@
+-#Tue Jun 17 22:57:49 CEST 2025
+-gradle.version=8.10
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ /dev/null	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
+@@ -1,69 +0,0 @@
+-Index: src/test/java/brique/GameControllerTest.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package brique;\r\n\r\nimport brique.controller.GameController;\r\nimport brique.model.Board;\r\nimport brique.model.Move;\r\nimport brique.model.Player;\r\nimport brique.model.UnadmissibleMove;\r\nimport org.junit.jupiter.api.BeforeEach;\r\nimport org.junit.jupiter.api.Test;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n\r\npublic class GameControllerTest {\r\n\r\n    @Test\r\n    public void firstPlayerStartsTheGame() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController gamecontroller = new GameController(player_1,player_2);\r\n\r\n        assertEquals(player_1, gamecontroller.currentPlayer());\r\n    }\r\n\r\n    @Test\r\n    public void boardInitialized() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n\r\n        GameController gamecontroller = new GameController(player_1,player_2);\r\n\r\n        assertNotNull(gamecontroller.board());\r\n    }\r\n\r\n    @Test\r\n    public void boardIsEmptyAtStart() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n\r\n        GameController game = new GameController(player_1,player_2);\r\n        Board board = game.board();\r\n\r\n        for (int row = 0; row< board.getRows(); row++) {\r\n            for (int col = 0; col < board.getCols(); col++) {\r\n                assertTrue(board.isFree(row, col),\r\n                        \"Expected cell (\" + row + \",\" + col + \") to be free\");\r\n            }\r\n        }\r\n    }\r\n\r\n    @Test\r\n    public void currentTurnCounter() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertEquals(1, game.currentTurn());\r\n    }\r\n\r\n    @Test\r\n    public void alternatePlayerTurn() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertEquals(player_1, game.currentPlayer());\r\n\r\n        game.setTurnForTest(2);\r\n        assertEquals(player_2, game.currentPlayer());\r\n    }\r\n\r\n    @Test\r\n    public void playerCanPlaceStoneFreeCell() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));\r\n\r\n        assertEquals(player_1, game.board().getPlayerAt(0,0));\r\n\r\n    }\r\n\r\n    @Test\r\n    public void turnIncreasesAfterTurn() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertEquals(1, game.currentTurn());\r\n        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));\r\n        assertEquals(2, game.currentTurn());\r\n        assertTrue(game.makeMove(new Move(0,1,game.currentPlayer())));\r\n        assertEquals(3, game.currentTurn());\r\n    }\r\n\r\n    @Test\r\n    public void currentPlayerChangeAfterMove() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertEquals(player_1, game.currentPlayer());\r\n        assertTrue(game.makeMove(new Move(0,0, game.currentPlayer())));\r\n        assertEquals(player_2, game.currentPlayer());\r\n    }\r\n\r\n    @Test\r\n    public void moveWrongIsRejected() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        Move invalidMove = new Move(0,0,player_2);\r\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(invalidMove));\r\n    }\r\n\r\n    @Test\r\n    public void placeStoneOnOccupiedCell() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        assertDoesNotThrow(() -> game.makeMove(new Move(0,0,player_1)));\r\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(new Move(0,0,player_2)));\r\n\r\n    }\r\n\r\n    @Test\r\n    public void pieRuleSuccess() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1, player_2);\r\n\r\n        game.makeMove(new Move(0, 0, player_1));\r\n        assertTrue(game.pieRuleAvailable());\r\n        game.applyPieMove();\r\n\r\n        Player new_player_1 = game.getFirstPlayer();\r\n        Player new_player_2 = game.getSecondPlayer();\r\n\r\n        assertEquals(player_2, new_player_1);\r\n        assertEquals(player_1, new_player_2);\r\n\r\n        assertEquals(game.currentPlayer(), new_player_2);\r\n        assertEquals(game.board().getPlayerAt(0,0), new_player_1);\r\n    }\r\n\r\n    @Test\r\n    public void pieMoveFailIfNotTurn2()  throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove(new Move(1,1,game.currentPlayer()));\r\n\r\n        game.makeMove(new Move(2, 2, game.currentPlayer()));\r\n\r\n        assertThrows(UnadmissibleMove.class, game::applyPieMove);\r\n\r\n\r\n    }\r\n\r\n\r\n    @Test\r\n    public void pieRuleWrongPosition() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove(new Move(6,6,player_1));\r\n        Move WrongMove = new Move(7,7,player_2, true);\r\n        assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));\r\n    }\r\n\r\n    @Test\r\n    public void escortRulePlace() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove( new Move(7, 9, player_1));\r\n        game.makeMove( new Move(0, 0, player_2));\r\n        game.makeMove( new Move(8, 8, player_1));\r\n\r\n        assertEquals(player_1, game.board().getPlayerAt(7,8));\r\n\r\n    }\r\n    @Test\r\n    public void escortRulePlaceEat() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove( new Move(7, 9, player_1));\r\n        game.makeMove( new Move(7, 8, player_2));\r\n        game.makeMove( new Move(8, 8, player_1));\r\n\r\n        assertEquals(player_1, game.board().getPlayerAt(7,8));\r\n\r\n    }\r\n\r\n    @Test\r\n    public void escortRulePlaceOnBlackCell() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove( new Move(7, 8, player_1));\r\n        game.makeMove( new Move(0, 0, player_2));\r\n        game.makeMove( new Move(6, 9, player_1));\r\n\r\n        assertEquals(player_1, game.board().getPlayerAt(7,9));\r\n    }\r\n\r\n    @Test\r\n    public void doubleEscortMoveBlackCell()  throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove( new Move(6, 9, player_1));\r\n        game.makeMove( new Move(0, 0, player_2));\r\n        game.makeMove( new Move(8, 7, player_1));\r\n        game.makeMove( new Move(0, 1, player_2));\r\n        game.makeMove( new Move(7, 8, player_1));\r\n\r\n        assertEquals(player_1, game.board().getPlayerAt(7,9));\r\n        assertEquals(player_1, game.board().getPlayerAt(8,8));\r\n    }\r\n\r\n    @Test\r\n    public void noWinOnNewGame() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n        assertFalse(game.winBoard(), \"No winner at start of the game\");\r\n    }\r\n\r\n    @Test\r\n    public void noWinAfterNonConnectingMoves()  throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n\r\n        game.makeMove( new Move(0, 0, game.currentPlayer()));\r\n        game.makeMove( new Move(7, 7, game.currentPlayer()));\r\n        game.makeMove( new Move(1, 0, game.currentPlayer()));\r\n\r\n        assertFalse(game.winBoard());\r\n    }\r\n\r\n    @Test\r\n    public void player1WinByConnectingTopBottom() {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n        Board board = game.board();\r\n        for (int row=0; row<board.getRows(); row++) {\r\n            board.placeStone(row,0, player_1);\r\n        }\r\n\r\n        assertTrue(game.winBoard());\r\n    }\r\n\r\n    @Test\r\n    public void player2WinByConnectingLeftRight() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n        Board board = game.board();\r\n\r\n        game.makeMove(new Move(5,5, game.currentPlayer()));\r\n        for (int col=0; col<board.getRows(); col++) {\r\n            board.placeStone(0, col, player_2);\r\n        }\r\n        assertTrue(game.winBoard());\r\n    }\r\n    @Test\r\n    public void player2Win() throws UnadmissibleMove {\r\n        Player player_1 = new Player(\"Player_1\");\r\n        Player player_2 = new Player(\"Player_2\");\r\n        GameController game = new GameController(player_1,player_2);\r\n        Board board = game.board();\r\n\r\n        game.makeMove(new Move(5,5, game.currentPlayer()));\r\n        for (int col=0; col<board.getRows(); col++) {\r\n            board.placeStone(7, col, player_2);\r\n        }\r\n        assertTrue(game.winBoard());\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/test/java/brique/GameControllerTest.java b/src/test/java/brique/GameControllerTest.java
+---- a/src/test/java/brique/GameControllerTest.java	(revision 65702bbd74842902bfa1585f937232146a033043)
+-+++ b/src/test/java/brique/GameControllerTest.java	(date 1750772057828)
+-@@ -272,7 +272,7 @@
+-         Board board = game.board();
+- 
+-         game.makeMove(new Move(5,5, game.currentPlayer()));
+--        for (int col=0; col<board.getRows(); col++) {
+-+        for (int col=0; col<board.getCols(); col++) {
+-             board.placeStone(0, col, player_2);
+-         }
+-         assertTrue(game.winBoard());
+-@@ -285,9 +285,22 @@
+-         Board board = game.board();
+- 
+-         game.makeMove(new Move(5,5, game.currentPlayer()));
+--        for (int col=0; col<board.getRows(); col++) {
+-+        for (int col=0; col<board.getCols(); col++) {
+-             board.placeStone(7, col, player_2);
+-         }
+-         assertTrue(game.winBoard());
+-     }
+-+    @Test
+-+    public void player2WinNotConnected() throws UnadmissibleMove {
+-+        Player player_1 = new Player("Player_1");
+-+        Player player_2 = new Player("Player_2");
+-+        GameController game = new GameController(player_1,player_2);
+-+        Board board = game.board();
+-+
+-+        game.makeMove(new Move(5,5, game.currentPlayer()));
+-+        for (int col=0; col<board.getCols()-1; col++) {
+-+            board.placeStone(7, col, player_2);
+-+        }
+-+        assertFalse(game.winBoard());
+-+    }
+- }
+-Index: src/main/java/brique/model/Board.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package brique.model;\r\n\r\nimport brique.controller.GameController;\r\n\r\npublic class Board {\r\n    private final int rows;\r\n    private final int cols;\r\n    private final Player[][] grid;\r\n    private final Player defaultPlayer = new Player(\"None\");\r\n\r\n    public Board(int size) {\r\n        this.rows = size;\r\n        this.cols = size;\r\n        this.grid = new Player[rows][cols];\r\n        for (int r = 0; r < rows; r++) {\r\n            for (int c = 0; c < cols; c++) {\r\n                grid[r][c] = defaultPlayer;\r\n            }\r\n        }\r\n    }\r\n\r\n    public Board() {\r\n        this(15); // default to 15×15\r\n    }\r\n\r\n    public int getRows() {\r\n        return rows;\r\n    }\r\n\r\n    public int getCols() {\r\n        return cols;\r\n    }\r\n\r\n    public boolean isFree(int row, int col) {\r\n        checkBounds(row, col);\r\n        return grid[row][col].equals(defaultPlayer);\r\n    }\r\n\r\n\r\n    public void placeStone(int row, int col, Player player) {\r\n        if (!isFree(row, col)) {\r\n            throw new IllegalArgumentException(\"Cell (\" + row + \",\" + col + \") is already occupied\");\r\n        }\r\n        grid[row][col] = player;\r\n    }\r\n    public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {\r\n        grid[row][col] = player;\r\n    }\r\n    public void PlaceStoneEscortRule(int row, int col, Player player) {\r\n        Player current = getPlayerAt(row, col);\r\n        if (player.equals(current)) {\r\n            throw new IllegalArgumentException(\"You already have a stone at (\" + row + \",\" + col + \")\");\r\n        }\r\n        grid[row][col] = player;\r\n    }\r\n\r\n\r\n    public Player getPlayerAt(int row, int col) {\r\n        boundsWithin(row, col);\r\n        return grid[row][col];\r\n    }\r\n\r\n    public boolean boundsWithin(int row, int col) {\r\n        return row >= 0 && row < rows && col >= 0 && col < cols;\r\n    }\r\n\r\n    private void checkBounds(int row, int col) {\r\n        if(!boundsWithin(row, col)) {\r\n            throw new IllegalArgumentException(\"Invalid position (\" + row + \",\" + col + \")\");\r\n        }\r\n    }\r\n\r\n\r\n}\r\n\r\n\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/brique/model/Board.java b/src/main/java/brique/model/Board.java
+---- a/src/main/java/brique/model/Board.java	(revision 65702bbd74842902bfa1585f937232146a033043)
+-+++ b/src/main/java/brique/model/Board.java	(date 1750774208123)
+-@@ -63,12 +63,9 @@
+-     public boolean boundsWithin(int row, int col) {
+-         return row >= 0 && row < rows && col >= 0 && col < cols;
+-     }
+--
+--    private void checkBounds(int row, int col) {
+--        if(!boundsWithin(row, col)) {
+--            throw new IllegalArgumentException("Invalid position (" + row + "," + col + ")");
+--        }
+--    }
+-+    private void checkBounds(int row,int col){
+-+        if(!boundsWithin(row,col))
+-+            throw new IndexOutOfBoundsException("Invalid position (" + row +"," + col + ")");}
+- 
+- 
+- }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"eccd0ae8-9978-4013-8170-e1ed43453dab\" name=\"Changes\" comment=\"\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ExternalProjectsData\">\n    <projectState path=\"$PROJECT_DIR$\">\n      <ProjectState />\n    </projectState>\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2yeT13SvNUcOmfAHrpSZarhC603\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Gradle.BoardTest.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.alternatePlayerTurn.executor&quot;: &quot;Debug&quot;,\n    &quot;Gradle.GameControllerTest.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.pieMoveFailIfNotTurn2.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.pieRuleFailAfterTurnTwo.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.pieRuleSuccess.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.pieRuleWrong.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.player2Win.executor&quot;: &quot;Run&quot;,\n    &quot;Gradle.GameControllerTest.player2WinNotConnected.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.GameControllerTest.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.GameControllerTest.player2SWin.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RunManager\" selected=\"JUnit.GameControllerTest\">\n    <configuration name=\"BoardTest\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\n      <ExternalSystemSettings>\n        <option name=\"executionName\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\n        <option name=\"scriptParameters\" value=\"\" />\n        <option name=\"taskDescriptions\">\n          <list />\n        </option>\n        <option name=\"taskNames\">\n          <list>\n            <option value=\":test\" />\n            <option value=\"--tests\" />\n            <option value=\"&quot;brique.BoardTest&quot;\" />\n          </list>\n        </option>\n        <option name=\"vmOptions\" />\n      </ExternalSystemSettings>\n      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\n      <DebugAllEnabled>false</DebugAllEnabled>\n      <RunAsTest>true</RunAsTest>\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"GameControllerTest.player2WinNotConnected\" type=\"GradleRunConfiguration\" factoryName=\"Gradle\" temporary=\"true\">\n      <ExternalSystemSettings>\n        <option name=\"executionName\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"externalSystemIdString\" value=\"GRADLE\" />\n        <option name=\"scriptParameters\" value=\"\" />\n        <option name=\"taskDescriptions\">\n          <list />\n        </option>\n        <option name=\"taskNames\">\n          <list>\n            <option value=\":test\" />\n            <option value=\"--tests\" />\n            <option value=\"&quot;brique.GameControllerTest.player2WinNotConnected&quot;\" />\n          </list>\n        </option>\n        <option name=\"vmOptions\" />\n      </ExternalSystemSettings>\n      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>\n      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>\n      <DebugAllEnabled>false</DebugAllEnabled>\n      <RunAsTest>true</RunAsTest>\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"BoardTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Brique.test\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"brique.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"brique\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"brique.BoardTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"GameControllerTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Brique.test\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"brique.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"brique\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"brique.GameControllerTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"GameControllerTest.player2SWin\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Brique.test\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"brique.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"brique\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"brique.GameControllerTest\" />\n      <option name=\"METHOD_NAME\" value=\"player2SWin\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"JUnit.GameControllerTest\" />\n        <item itemvalue=\"JUnit.BoardTest\" />\n        <item itemvalue=\"JUnit.GameControllerTest.player2SWin\" />\n        <item itemvalue=\"Gradle.BoardTest\" />\n        <item itemvalue=\"Gradle.GameControllerTest.player2WinNotConnected\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121\" />\n        <option value=\"bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"eccd0ae8-9978-4013-8170-e1ed43453dab\" name=\"Changes\" comment=\"\" />\n      <created>1750193821358</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1750193821358</updated>\n      <workItem from=\"1750193822547\" duration=\"2831000\" />\n      <workItem from=\"1750233384327\" duration=\"26140000\" />\n      <workItem from=\"1750323945001\" duration=\"10599000\" />\n      <workItem from=\"1750371263119\" duration=\"523000\" />\n      <workItem from=\"1750405523348\" duration=\"2228000\" />\n      <workItem from=\"1750412724798\" duration=\"1943000\" />\n      <workItem from=\"1750423049197\" duration=\"4135000\" />\n      <workItem from=\"1750436832834\" duration=\"1455000\" />\n      <workItem from=\"1750493797653\" duration=\"20613000\" />\n      <workItem from=\"1750607199187\" duration=\"5330000\" />\n      <workItem from=\"1750684489069\" duration=\"5691000\" />\n      <workItem from=\"1750755136768\" duration=\"7245000\" />\n      <workItem from=\"1750769506527\" duration=\"900000\" />\n      <workItem from=\"1750771731283\" duration=\"3280000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ b/.idea/workspace.xml	(date 1750778364399)
+@@ -4,169 +4,80 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="" />
++    <list default="true" id="895b6eb9-c0c0-4b55-960a-a79896a90595" name="Changes" comment="placeStone take Move as argument">
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/md5-checksums.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/dependencies-accessors/gc.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileChanges/last-build.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/resourceHashesCache.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/8.10/gc.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="ExternalProjectsData">
+-    <projectState path="$PROJECT_DIR$">
+-      <ProjectState />
+-    </projectState>
+-  </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="Class" />
+-      </list>
+-    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="RESET_MODE" value="MIXED" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;EmilioG7&quot;
++  }
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/AlexAnzilex/Brique&quot;,
++    &quot;accountId&quot;: &quot;8b81dfd5-e57d-4a32-9d18-e8a86a8e9a91&quot;
++  }
++}</component>
+   <component name="ProjectColorInfo">{
+-  &quot;associatedIndex&quot;: 2
++  &quot;associatedIndex&quot;: 5
+ }</component>
+-  <component name="ProjectId" id="2yeT13SvNUcOmfAHrpSZarhC603" />
++  <component name="ProjectId" id="2yxPNFiueyj4cplUjubyAeFKBAF" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Gradle.BoardTest.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.alternatePlayerTurn.executor&quot;: &quot;Debug&quot;,
+-    &quot;Gradle.GameControllerTest.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.pieMoveFailIfNotTurn2.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.pieRuleFailAfterTurnTwo.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.pieRuleSuccess.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.pieRuleWrong.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.player2Win.executor&quot;: &quot;Run&quot;,
+-    &quot;Gradle.GameControllerTest.player2WinNotConnected.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.GameControllerTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.GameControllerTest.player2SWin.executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "ModuleVcsDetector.initialDetectionPerformed": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "git-widget-placeholder": "main",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "onboarding.tips.debug.path": "/home/emilio/IdeaProjects/Brique/src/main/java/org/example/Main.java",
++    "project.structure.last.edited": "Project",
++    "project.structure.proportion": "0.0",
++    "project.structure.side.proportion": "0.42873564",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
+-  <component name="RunManager" selected="JUnit.GameControllerTest">
+-    <configuration name="BoardTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+-      <ExternalSystemSettings>
+-        <option name="executionName" />
+-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="externalSystemIdString" value="GRADLE" />
+-        <option name="scriptParameters" value="" />
+-        <option name="taskDescriptions">
+-          <list />
+-        </option>
+-        <option name="taskNames">
+-          <list>
+-            <option value=":test" />
+-            <option value="--tests" />
+-            <option value="&quot;brique.BoardTest&quot;" />
+-          </list>
+-        </option>
+-        <option name="vmOptions" />
+-      </ExternalSystemSettings>
+-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+-      <DebugAllEnabled>false</DebugAllEnabled>
+-      <RunAsTest>true</RunAsTest>
+-      <method v="2" />
+-    </configuration>
+-    <configuration name="GameControllerTest.player2WinNotConnected" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+-      <ExternalSystemSettings>
+-        <option name="executionName" />
+-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="externalSystemIdString" value="GRADLE" />
+-        <option name="scriptParameters" value="" />
+-        <option name="taskDescriptions">
+-          <list />
+-        </option>
+-        <option name="taskNames">
+-          <list>
+-            <option value=":test" />
+-            <option value="--tests" />
+-            <option value="&quot;brique.GameControllerTest.player2WinNotConnected&quot;" />
+-          </list>
+-        </option>
+-        <option name="vmOptions" />
+-      </ExternalSystemSettings>
+-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+-      <DebugAllEnabled>false</DebugAllEnabled>
+-      <RunAsTest>true</RunAsTest>
+-      <method v="2" />
+-    </configuration>
+-    <configuration name="BoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Brique.test" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="brique.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="brique" />
+-      <option name="MAIN_CLASS_NAME" value="brique.BoardTest" />
+-      <option name="TEST_OBJECT" value="class" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="GameControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Brique.test" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="brique.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="brique" />
+-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
+-      <option name="TEST_OBJECT" value="class" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="GameControllerTest.player2SWin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+-      <module name="Brique.test" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="brique.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+-      <option name="PACKAGE_NAME" value="brique" />
+-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
+-      <option name="METHOD_NAME" value="player2SWin" />
+-      <option name="TEST_OBJECT" value="method" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <recent_temporary>
+-      <list>
+-        <item itemvalue="JUnit.GameControllerTest" />
+-        <item itemvalue="JUnit.BoardTest" />
+-        <item itemvalue="JUnit.GameControllerTest.player2SWin" />
+-        <item itemvalue="Gradle.BoardTest" />
+-        <item itemvalue="Gradle.GameControllerTest.player2WinNotConnected" />
+-      </list>
+-    </recent_temporary>
+-  </component>
++}]]></component>
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+@@ -177,26 +88,39 @@
+   </component>
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+-      <changelist id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="" />
+-      <created>1750193821358</created>
++      <changelist id="895b6eb9-c0c0-4b55-960a-a79896a90595" name="Changes" comment="" />
++      <created>1750773237950</created>
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+-      <updated>1750193821358</updated>
+-      <workItem from="1750193822547" duration="2831000" />
+-      <workItem from="1750233384327" duration="26140000" />
+-      <workItem from="1750323945001" duration="10599000" />
+-      <workItem from="1750371263119" duration="523000" />
+-      <workItem from="1750405523348" duration="2228000" />
+-      <workItem from="1750412724798" duration="1943000" />
+-      <workItem from="1750423049197" duration="4135000" />
+-      <workItem from="1750436832834" duration="1455000" />
+-      <workItem from="1750493797653" duration="20613000" />
+-      <workItem from="1750607199187" duration="5330000" />
+-      <workItem from="1750684489069" duration="5691000" />
+-      <workItem from="1750755136768" duration="7245000" />
+-      <workItem from="1750769506527" duration="900000" />
+-      <workItem from="1750771731283" duration="3280000" />
++      <updated>1750773237950</updated>
++      <workItem from="1750773245959" duration="978000" />
++      <workItem from="1750774395249" duration="3964000" />
++    </task>
++    <task id="LOCAL-00001" summary="test vittoria ad S&#10;test di non vittoria se non arrivati fino in fondo">
++      <option name="closed" value="true" />
++      <created>1750774077188</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1750774077188</updated>
+     </task>
++    <task id="LOCAL-00002" summary="placeStone take Move as argument">
++      <option name="closed" value="true" />
++      <created>1750775780532</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1750775780532</updated>
++    </task>
++    <task id="LOCAL-00003" summary="placeStone take Move as argument">
++      <option name="closed" value="true" />
++      <created>1750776509342</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1750776509342</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -213,4 +137,20 @@
+       </map>
+     </option>
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="test vittoria ad S&#10;test di non vittoria se non arrivati fino in fondo" />
++    <MESSAGE value="placeStone take Move as argument" />
++    <option name="LAST_COMMIT_MESSAGE" value="placeStone take Move as argument" />
++  </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager>
++      <breakpoints>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
++          <line>13</line>
++          <option name="timeStamp" value="1" />
++        </line-breakpoint>
++      </breakpoints>
++    </breakpoint-manager>
++  </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" default=\"true\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision ca2b4df7c27bb88546c49dd6258c52675d7514fb)
++++ b/.idea/misc.xml	(date 1750774232482)
+@@ -1,6 +1,14 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" default="true">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+diff --git a/.gradle/8.10/gc.properties b/.gradle/8.10/gc.properties
+deleted file mode 100644
+diff --git a/.gradle/vcs-1/gc.properties b/.gradle/vcs-1/gc.properties
+deleted file mode 100644
+diff --git a/.gradle/8.10/dependencies-accessors/gc.properties b/.gradle/8.10/dependencies-accessors/gc.properties
+deleted file mode 100644
