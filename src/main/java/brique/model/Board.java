@@ -1,6 +1,5 @@
 package brique.model;
 
-import brique.controller.GameController;
 
 public class Board {
     private final int rows;
@@ -20,7 +19,7 @@ public class Board {
     }
 
     public Board() {
-        this(15); // default to 15×15
+        this(15); 
     }
 
     public int getRows() {
@@ -36,26 +35,34 @@ public class Board {
         return grid[row][col].equals(defaultPlayer);
     }
 
-    public void placeStone(Move move) {
-        int col = move.getCol();
-        int row = move.getRow();
+
+    public void placeStone(int row, int col, Player player) {
         if (!isFree(row, col)) {
             throw new IllegalArgumentException("Cell (" + row + "," + col + ") is already occupied");
         }
-        grid[row][col] = move.getPlayer();
-    }
-
-    public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {
         grid[row][col] = player;
     }
-
-    public void PlaceStoneEscortRule(int row, int col, Player player) {
-        Player current = getPlayerAt(row, col);
-        if (player.equals(current)) {
-            throw new IllegalArgumentException("You already have a stone at (" + row + "," + col + ")");
+    public void PlaceStonePieRule(int row, int col, Player p, boolean pieActive) {
+        checkBounds(row, col);
+        if (!pieActive) {
+            if (!isFree(row, col))
+                throw new IllegalArgumentException("Overwrite not allowed without Pie-Rule");
         }
-        grid[row][col] = player;
+        grid[row][col] = p;
     }
+
+    public void PlaceStoneEscortRule(int row, int col, Player p) {
+        if (!boundsWithin(row, col)) return;
+
+        Player cellPlayer = getPlayerAt(row, col);
+        if (!cellPlayer.equals(p) && !cellPlayer.equals(defaultPlayer)) {
+            grid[row][col] = defaultPlayer;
+        }
+        if (isFree(row, col)) {
+            grid[row][col] = p;
+        }
+    }
+
 
     public Player getPlayerAt(int row, int col) {
         boundsWithin(row, col);
@@ -65,15 +72,9 @@ public class Board {
     public boolean boundsWithin(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
-
-    private void checkBounds(int row, int col) {
-        if(!boundsWithin(row, col)) {
-            throw new IllegalArgumentException("Invalid position (" + row + "," + col + ")");
-        }
-    }
+    private void checkBounds(int row,int col){
+        if(!boundsWithin(row,col))
+            throw new IndexOutOfBoundsException("Invalid position (" + row +"," + col + ")");}
 
 
 }
-
-
-
