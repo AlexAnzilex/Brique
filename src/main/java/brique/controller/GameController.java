@@ -9,6 +9,14 @@ public class GameController {
     private final EscortRuleEngine escortEngine;
     private int turn;
 
+    public GameController(Player player_1, Player player_2, int dim) {
+        this.firstPlayer = player_1;
+        this.secondPlayer = player_2;
+        this.board = new Board(dim);
+        this.turn = 1;
+        this.escortEngine = new EscortRuleEngine(board);
+    }
+
     public GameController(Player player_1, Player player_2) {
         this.firstPlayer = player_1;
         this.secondPlayer = player_2;
