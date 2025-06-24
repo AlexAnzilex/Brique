@@ -41,11 +41,11 @@ public class GameController {
     }
 
     public boolean pieRuleAvailable(){return turn == 2;}
-    public void applyPieMove(Move move) throws UnadmissibleMove {
+    public void applyPieMove() throws UnadmissibleMove {
         if (turn!=2) {
             throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
         }
-        if (!move.getPlayer().name().equals(secondPlayer.name())) {
+        if (!currentPlayer().equals(secondPlayer)) {
             throw new UnadmissibleMove("Only the " + secondPlayer.name() + " can use the Pie Rule in turn two");
         }
 

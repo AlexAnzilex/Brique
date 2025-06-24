@@ -134,9 +134,14 @@ public class GameControllerTest {
         GameController game = new GameController(player_1, player_2);
 
         game.makeMove(new Move(0, 0, player_1));
-        game.makeMove(new Move(0, 0, player_2, true));
+        assertTrue(game.pieRuleAvailable());
+        game.applyPieMove();
 
+        Player new_player_1 = game.getFirstPlayer();
+        Player new_player_2 = game.getSecondPlayer();
 
+        assertEquals(player_2, new_player_1);
+        assertEquals(player_1, new_player_2);
     }
 
     @Test
@@ -145,27 +150,15 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove(new Move(1,1,player_1));
+        game.makeMove(new Move(1,1,game.currentPlayer()));
 
-        Move WrongMove = new Move(2, 2, player_1, true);
+        game.makeMove(new Move(2, 2, game.currentPlayer()));
 
-        assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));
+        assertThrows(UnadmissibleMove.class, game::applyPieMove);
+
 
     }
 
-    @Test
-    public void pieRuleFailAfterTurnTwo() throws UnadmissibleMove {
-        Player player_1 = new Player("Player_1");
-        Player player_2 = new Player("Player_2");
-        GameController game = new GameController(player_1,player_2);
-
-        game.makeMove(new Move(0,0,player_1));
-        game.makeMove(new Move(2,2,player_2));
-        game.makeMove(new Move(1,1,player_1));
-        Move latePieMove= new Move(0,0,player_2, true);
-
-        assertThrows(UnadmissibleMove.class, () -> game.makeMove(latePieMove));
-    }
 
     @Test
     public void pieRuleWrongPosition() throws UnadmissibleMove {
