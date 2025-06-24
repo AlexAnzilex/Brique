@@ -17,6 +17,13 @@ public class GameController {
         this.escortEngine = new EscortRuleEngine(board);
     }
 
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+
     public Player currentPlayer() {
         return (turn % 2 == 1) ? firstPlayer : secondPlayer;
     }
@@ -33,31 +40,39 @@ public class GameController {
         this.turn = t;
     }
 
-    public boolean makeMove(Move move) throws UnadmissibleMove{
-        if (move.isPieMove()){
-
-            if (turn != 2){
-                throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
-            }
-            if (!move.getPlayer().name().equals(secondPlayer.name())){
-                throw new UnadmissibleMove("Only the " + secondPlayer.name() + " can use the Pie Rule in turn two");
-            }
-            int row = move.getRow();
-            int col = move.getCol();
-
-
-            if (!board.getPlayerAt(row, col ).equals(firstPlayer)){
-                throw new UnadmissibleMove("Can't play pie move in position (" + row + "," + col + ")");
-            }
-
-            board.PlaceStonePieRule(row, col, secondPlayer, move.isPieMove());
-
-            Player tmp = firstPlayer;
-            firstPlayer = secondPlayer;
-            secondPlayer = tmp;
-
-            return true;
+    public boolean pieRuleAvailable(){return turn == 2;}
+    public void applyPieMove(Move move) throws UnadmissibleMove {
+        if (turn!=2) {
+            throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
         }
+        if (!move.getPlayer().name().equals(secondPlayer.name())) {
+            throw new UnadmissibleMove("Only the " + secondPlayer.name() + " can use the Pie Rule in turn two");
+        }
+
+        int row=-1;
+        int col=-1;
+        search:
+        for (int i = 0; i < board.getRows(); i++){
+            for (int j = 0; j < board.getCols(); j++){
+                if (board.getPlayerAt(i,j).equals(firstPlayer)){
+                    row=i;
+                    col=j;
+                    break search;
+                }
+            }
+        }
+        if (row<0) throw new IllegalStateException("Did not find the first player in board");
+        board.PlaceStonePieRule(row, col, secondPlayer, true);
+
+        Player tmp = firstPlayer;
+        firstPlayer = secondPlayer;
+        secondPlayer = tmp;
+
+    }
+
+
+    public boolean makeMove(Move move) throws UnadmissibleMove{
+        if (move.isPieMove()) throw new UnadmissibleMove("Use applyPieRule()");
         if (!move.getPlayer().equals(currentPlayer())) {
             throw new UnadmissibleMove(move.getPlayer() + " is not your turn!");
         }
