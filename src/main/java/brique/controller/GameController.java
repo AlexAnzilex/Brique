@@ -28,6 +28,7 @@ public class GameController {
     public Player getFirstPlayer() {
         return firstPlayer;
     }
+
     public Player getSecondPlayer() {
         return secondPlayer;
     }
@@ -49,6 +50,7 @@ public class GameController {
     }
 
     public boolean pieRuleAvailable(){return turn == 2;}
+
     public void applyPieMove() throws UnadmissibleMove {
         if (turn!=2) {
             throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
@@ -78,7 +80,6 @@ public class GameController {
 
     }
 
-
     public boolean makeMove(Move move) throws UnadmissibleMove{
         if (move.isPieMove()) throw new UnadmissibleMove("Use applyPieRule()");
         if (!move.getPlayer().equals(currentPlayer())) {
@@ -87,12 +88,11 @@ public class GameController {
         if (!board.isFree(move.getRow(), move.getCol())){
             throw new UnadmissibleMove("The cell (" + move.getRow() + move.getCol() + ") is already occupied!");
         }
-        board.placeStone(move.getRow(), move.getCol(), currentPlayer());
+        board.placeStone(move);
         escortEngine.applyRules(move);
         turn++;
         return true;
     }
-
 
     public boolean winBoard() {
 

@@ -36,16 +36,19 @@ public class Board {
         return grid[row][col].equals(defaultPlayer);
     }
 
-
-    public void placeStone(int row, int col, Player player) {
+    public void placeStone(Move move) {
+        int col = move.getCol();
+        int row = move.getRow();
         if (!isFree(row, col)) {
             throw new IllegalArgumentException("Cell (" + row + "," + col + ") is already occupied");
         }
-        grid[row][col] = player;
+        grid[row][col] = move.getPlayer();
     }
+
     public void PlaceStonePieRule(int row, int col, Player player, boolean pie) {
         grid[row][col] = player;
     }
+
     public void PlaceStoneEscortRule(int row, int col, Player player) {
         Player current = getPlayerAt(row, col);
         if (player.equals(current)) {
@@ -53,7 +56,6 @@ public class Board {
         }
         grid[row][col] = player;
     }
-
 
     public Player getPlayerAt(int row, int col) {
         boundsWithin(row, col);
@@ -63,9 +65,12 @@ public class Board {
     public boolean boundsWithin(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
-    private void checkBounds(int row,int col){
-        if(!boundsWithin(row,col))
-            throw new IndexOutOfBoundsException("Invalid position (" + row +"," + col + ")");}
+
+    private void checkBounds(int row, int col) {
+        if(!boundsWithin(row, col)) {
+            throw new IllegalArgumentException("Invalid position (" + row + "," + col + ")");
+        }
+    }
 
 
 }

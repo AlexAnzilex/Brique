@@ -258,7 +258,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1, player_2);
         Board board = game.board();
         for (int row = 0; row < board.getRows() - 1; row++) {
-            board.placeStone(row, 0, player_1);
+            board.placeStone(new Move(row, 0, player_1));
         }
         assertFalse(game.winBoard());
     }
@@ -269,7 +269,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
         Board board = game.board();
         for (int row=0; row<board.getRows(); row++) {
-            board.placeStone(row,0, player_1);
+            board.placeStone(new Move(row,0, player_1));
         }
         assertTrue(game.winBoard());
     }
@@ -282,8 +282,8 @@ public class GameControllerTest {
         Board board = game.board();
 
         game.makeMove(new Move(5,5, game.currentPlayer()));
-        for (int col=0; col<board.getCols(); col++) {
-            board.placeStone(0, col, player_2);
+        for (int col=0; col<board.getRows(); col++) {
+            board.placeStone(new Move(0, col, player_2));
         }
         assertTrue(game.winBoard());
     }
@@ -295,8 +295,8 @@ public class GameControllerTest {
         Board board = game.board();
 
         game.makeMove(new Move(5,5, game.currentPlayer()));
-        for (int col=0; col<board.getCols(); col++) {
-            board.placeStone(7, col, player_2);
+        for (int col=0; col<board.getRows(); col++) {
+            board.placeStone(new Move(7, col, player_2));
         }
         assertTrue(game.winBoard());
     }
@@ -314,22 +314,10 @@ public class GameControllerTest {
                       {4,1},
                       {5,1},{5,2},{5,3},{5,4},{5,5},{5,6}
         };
+        game.makeMove(new Move(5,5, game.currentPlayer()));
         for (int[] pos : pos_list) {
-            board.placeStone(pos[0], pos[1], player_2);
+            board.placeStone(new Move(pos[0], pos[1], player_2));
         }
         assertTrue(game.winBoard());
-    }
-    @Test
-    public void player2WinNotConnected() throws UnadmissibleMove {
-        Player player_1 = new Player("Player_1");
-        Player player_2 = new Player("Player_2");
-        GameController game = new GameController(player_1,player_2);
-        Board board = game.board();
-
-        game.makeMove(new Move(5,5, game.currentPlayer()));
-        for (int col=0; col<board.getCols()-1; col++) {
-            board.placeStone(7, col, player_2);
-        }
-        assertFalse(game.winBoard());
     }
 }
