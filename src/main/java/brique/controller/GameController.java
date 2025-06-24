@@ -88,6 +88,7 @@ public class GameController {
         }
         board.placeStone(move);
         escortEngine.applyRules(move);
+
         turn++;
         return true;
     }
@@ -107,14 +108,25 @@ public class GameController {
         boolean[][] visited = new  boolean[rows][cols];
         java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
 
-        for (int row = 0; row < rows; row++) {
+        if(player.equals(firstPlayer) ){
             for (int col = 0; col < cols; col++) {
-                if (player.equals(currentPlayer()) && board.getPlayerAt(row, col).equals(player)) {
-                    queue.push(new int[]{row, col});
-                    visited[row][col] = true;
+                if (board.getPlayerAt(0, col).equals(player)) {
+                queue.push(new int[]{0, col});
+                visited[0][col] = true;
                 }
             }
         }
+        else {
+            for (int row = 0; row < rows; row++) {
+                if ( board.getPlayerAt(row, 0).equals(player)) {
+                    queue.push(new int[]{row, 0});
+                    visited[row][0] = true;
+                }
+            }
+        }
+
+
+
         while (!queue.isEmpty()) {
             int[] cell = queue.pop();
             int row = cell[0];

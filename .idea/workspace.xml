@@ -4,33 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="895b6eb9-c0c0-4b55-960a-a79896a90595" name="Changes" comment="placeStone take Move as argument">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/dependencies-accessors/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.10/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_13__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_06_2025_16_24__Changes_.xml" beforeDir="false" />
+    <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,60 +14,124 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="MIXED" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;EmilioG7&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/AlexAnzilex/Brique&quot;,
-    &quot;accountId&quot;: &quot;8b81dfd5-e57d-4a32-9d18-e8a86a8e9a91&quot;
-  }
-}</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2yxPNFiueyj4cplUjubyAeFKBAF" />
+  <component name="ProjectId" id="2yeT13SvNUcOmfAHrpSZarhC603" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.GameControllerTest.executor": "Run",
-    "JUnit.GameControllerTest.player1WinByConnectingTopBottom.executor": "Run",
-    "JUnit.GameControllerTest.player2SWin.executor": "Run",
-    "JUnit.GameControllerTest.player2Win.executor": "Run",
-    "JUnit.GameControllerTest.player2WinByConnectingLeftRight.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/emilio/IdeaProjects/Brique/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.42873564",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.BoardTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.alternatePlayerTurn.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.GameControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.pieMoveFailIfNotTurn2.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.pieRuleFailAfterTurnTwo.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.pieRuleSuccess.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.pieRuleWrong.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.player2Win.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GameControllerTest.player2WinNotConnected.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GameControllerTest.player2SWin.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="JUnit.GameControllerTest.player2SWin">
-    <configuration name="GameControllerTest.player1WinByConnectingTopBottom" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique" />
+}</component>
+  <component name="RunManager" selected="JUnit.GameControllerTest">
+    <configuration name="BoardTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;brique.BoardTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GameControllerTest.player2WinNotConnected" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;brique.GameControllerTest.player2WinNotConnected&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="BoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Brique.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="brique.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="brique" />
+      <option name="MAIN_CLASS_NAME" value="brique.BoardTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Brique.test" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="brique.*" />
@@ -100,14 +140,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="brique" />
       <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
-      <option name="METHOD_NAME" value="player1WinByConnectingTopBottom" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="GameControllerTest.player2SWin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique" />
+      <module name="Brique.test" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="brique.*" />
@@ -122,44 +161,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameControllerTest.player2Win" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="brique.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="brique" />
-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
-      <option name="METHOD_NAME" value="player2Win" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameControllerTest.player2WinByConnectingLeftRight" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="brique.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="brique" />
-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
-      <option name="METHOD_NAME" value="player2WinByConnectingLeftRight" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GameControllerTest" />
         <item itemvalue="JUnit.GameControllerTest.player2SWin" />
-        <item itemvalue="JUnit.GameControllerTest.player2Win" />
-        <item itemvalue="JUnit.GameControllerTest.player2WinByConnectingLeftRight" />
-        <item itemvalue="JUnit.GameControllerTest.player1WinByConnectingTopBottom" />
+        <item itemvalue="JUnit.BoardTest" />
+        <item itemvalue="Gradle.BoardTest" />
+        <item itemvalue="Gradle.GameControllerTest.player2WinNotConnected" />
       </list>
     </recent_temporary>
   </component>
@@ -173,40 +181,26 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="895b6eb9-c0c0-4b55-960a-a79896a90595" name="Changes" comment="" />
-      <created>1750773237950</created>
+      <changelist id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="" />
+      <created>1750193821358</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1750773237950</updated>
-      <workItem from="1750773245959" duration="978000" />
-      <workItem from="1750774395249" duration="5393000" />
-      <workItem from="1750779869053" duration="1646000" />
+      <updated>1750193821358</updated>
+      <workItem from="1750193822547" duration="2831000" />
+      <workItem from="1750233384327" duration="26140000" />
+      <workItem from="1750323945001" duration="10599000" />
+      <workItem from="1750371263119" duration="523000" />
+      <workItem from="1750405523348" duration="2228000" />
+      <workItem from="1750412724798" duration="1943000" />
+      <workItem from="1750423049197" duration="4135000" />
+      <workItem from="1750436832834" duration="1455000" />
+      <workItem from="1750493797653" duration="20613000" />
+      <workItem from="1750607199187" duration="5330000" />
+      <workItem from="1750684489069" duration="5691000" />
+      <workItem from="1750755136768" duration="7245000" />
+      <workItem from="1750769506527" duration="900000" />
+      <workItem from="1750771731283" duration="3280000" />
     </task>
-    <task id="LOCAL-00001" summary="test vittoria ad S&#10;test di non vittoria se non arrivati fino in fondo">
-      <option name="closed" value="true" />
-      <created>1750774077188</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1750774077188</updated>
-    </task>
-    <task id="LOCAL-00002" summary="placeStone take Move as argument">
-      <option name="closed" value="true" />
-      <created>1750775780532</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1750775780532</updated>
-    </task>
-    <task id="LOCAL-00003" summary="placeStone take Move as argument">
-      <option name="closed" value="true" />
-      <created>1750776509342</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1750776509342</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,21 +216,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="test vittoria ad S&#10;test di non vittoria se non arrivati fino in fondo" />
-    <MESSAGE value="placeStone take Move as argument" />
-    <option name="LAST_COMMIT_MESSAGE" value="placeStone take Move as argument" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>13</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

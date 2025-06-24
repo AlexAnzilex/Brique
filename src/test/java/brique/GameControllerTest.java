@@ -320,7 +320,6 @@ public class GameControllerTest {
         for (int[] pos : pos_list) {
             board.placeStone(new Move(pos[0], pos[1], player_2));
         }
-        System.out.println(board);
         assertTrue(game.winBoard());
     }
 }
