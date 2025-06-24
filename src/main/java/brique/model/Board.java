@@ -63,12 +63,9 @@ public class Board {
     public boolean boundsWithin(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
-
-    private void checkBounds(int row, int col) {
-        if(!boundsWithin(row, col)) {
-            throw new IllegalArgumentException("Invalid position (" + row + "," + col + ")");
-        }
-    }
+    private void checkBounds(int row,int col){
+        if(!boundsWithin(row,col))
+            throw new IndexOutOfBoundsException("Invalid position (" + row +"," + col + ")");}
 
 
 }
