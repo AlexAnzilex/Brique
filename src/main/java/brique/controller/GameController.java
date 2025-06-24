@@ -3,8 +3,8 @@ package brique.controller;
 import brique.model.*;
 
 public class GameController {
-    private final Player firstPlayer;
-    private final Player secondPlayer;
+    private Player firstPlayer;
+    private Player secondPlayer;
     private final Board board;
     private final EscortRuleEngine escortEngine;
     private int turn;
@@ -51,7 +51,11 @@ public class GameController {
             }
 
             board.PlaceStonePieRule(row, col, secondPlayer, move.isPieMove());
-            turn ++;
+
+            Player tmp = firstPlayer;
+            firstPlayer = secondPlayer;
+            secondPlayer = tmp;
+
             return true;
         }
         if (!move.getPlayer().equals(currentPlayer())) {
