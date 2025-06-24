@@ -1,6 +1,8 @@
 package brique.model;
 
 
+import java.util.Arrays;
+
 public class Board {
     private final int rows;
     private final int cols;
@@ -19,7 +21,7 @@ public class Board {
     }
 
     public Board() {
-        this(15); 
+        this(15);
     }
 
     public int getRows() {
@@ -36,30 +38,31 @@ public class Board {
     }
 
 
-    public void placeStone(int row, int col, Player player) {
-        if (!isFree(row, col)) {
-            throw new IllegalArgumentException("Cell (" + row + "," + col + ") is already occupied");
+    public void placeStone(Move move) {
+        if (!isFree(move.getRow(), move.getCol())) {
+            throw new IllegalArgumentException("Cell (" + move.getRow() + "," + move.getCol() + ") is already occupied");
         }
-        grid[row][col] = player;
+        grid[move.getRow()][move.getCol()] = move.getPlayer();
     }
-    public void PlaceStonePieRule(int row, int col, Player p, boolean pieActive) {
-        checkBounds(row, col);
-        if (!pieActive) {
-            if (!isFree(row, col))
+
+    public void PlaceStonePieRule(Move move) {
+        checkBounds(move.getRow(), move.getCol());
+        if (move.isPieMove()) {
+            if (!isFree(move.getRow(), move.getCol()))
                 throw new IllegalArgumentException("Overwrite not allowed without Pie-Rule");
         }
-        grid[row][col] = p;
+        grid[move.getRow()][move.getCol()] = move.getPlayer();
     }
 
-    public void PlaceStoneEscortRule(int row, int col, Player p) {
-        if (!boundsWithin(row, col)) return;
+    public void PlaceStoneEscortRule(Move move) {
+        if (!boundsWithin(move.getRow(), move.getCol())) return;
 
-        Player cellPlayer = getPlayerAt(row, col);
-        if (!cellPlayer.equals(p) && !cellPlayer.equals(defaultPlayer)) {
-            grid[row][col] = defaultPlayer;
+        Player cellPlayer = getPlayerAt(move.getRow(), move.getCol());
+        if (!cellPlayer.equals(move.getPlayer()) && !cellPlayer.equals(defaultPlayer)) {
+            grid[move.getRow()][move.getCol()] = defaultPlayer;
         }
-        if (isFree(row, col)) {
-            grid[row][col] = p;
+        if (isFree(move.getRow(), move.getCol())) {
+            grid[move.getRow()][move.getCol()] = move.getPlayer();
         }
     }
 
@@ -76,5 +79,12 @@ public class Board {
         if(!boundsWithin(row,col))
             throw new IndexOutOfBoundsException("Invalid position (" + row +"," + col + ")");}
 
-
+    @Override
+    public String toString() {
+        String string = "";
+        for (Player[] row : grid) {
+            string += Arrays.toString(row) + "\n";
+        }
+        return string;
+    }
 }

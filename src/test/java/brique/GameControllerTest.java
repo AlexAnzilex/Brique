@@ -187,6 +187,7 @@ public class GameControllerTest {
         assertEquals(player_1, game.board().getPlayerAt(7,8));
 
     }
+
     @Test
     public void escortRulePlaceEat() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
@@ -262,6 +263,7 @@ public class GameControllerTest {
         }
         assertFalse(game.winBoard());
     }
+
     @Test
     public void player1WinByConnectingTopBottom() {
         Player player_1 = new Player("Player_1");
@@ -287,6 +289,7 @@ public class GameControllerTest {
         }
         assertTrue(game.winBoard());
     }
+
     @Test
     public void player2Win() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
@@ -305,19 +308,19 @@ public class GameControllerTest {
     public void player2SWin() throws UnadmissibleMove {
         Player player_1 = new Player("Player_1");
         Player player_2 = new Player("Player_2");
-        GameController game = new GameController(player_1,player_2, 7);
+        GameController game = new GameController(player_1,player_2);
         Board board = game.board();
         int[][] pos_list = {
                 {1,0},{1,1},{1,2},{1,3},
                                   {2,3},
                       {3,1},{3,2},{3,3},
                       {4,1},
-                      {5,1},{5,2},{5,3},{5,4},{5,5},{5,6}
+                      {5,1},{5,2},{5,3},{5,4},{5,5},{5,6},{5,7},{5,8},{5,9},{5,10},{5,11},{5,12},{5,13},{5,14}
         };
-        game.makeMove(new Move(5,5, game.currentPlayer()));
         for (int[] pos : pos_list) {
             board.placeStone(new Move(pos[0], pos[1], player_2));
         }
+        System.out.println(board);
         assertTrue(game.winBoard());
     }
 }

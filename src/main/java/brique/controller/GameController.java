@@ -1,5 +1,5 @@
 package brique.controller;
-
+import brique.model.Move;
 import brique.model.*;
 
 public class GameController {
@@ -60,19 +60,17 @@ public class GameController {
         }
 
         int row=-1;
-        int col=-1;
         search:
         for (int i = 0; i < board.getRows(); i++){
             for (int j = 0; j < board.getCols(); j++){
                 if (board.getPlayerAt(i,j).equals(firstPlayer)){
                     row=i;
-                    col=j;
+                    board.PlaceStonePieRule(new Move(i, j, secondPlayer));
                     break search;
                 }
             }
         }
         if (row<0) throw new IllegalStateException("Did not find the first player in board");
-        board.PlaceStonePieRule(row, col, secondPlayer, true);
 
         Player tmp = firstPlayer;
         firstPlayer = secondPlayer;
@@ -96,18 +94,12 @@ public class GameController {
 
     public boolean winBoard() {
 
-         if (goalWinner((r,c) -> r==0,
-                 (r, c) -> r==board.getRows()-1,
-                 firstPlayer)) return true;
-         return goalWinner((r,c) -> c==0,
-                 (r, c) -> c==board.getCols()-1,
-                 secondPlayer);
+         if (goalWinner(firstPlayer)) return true;
+         return goalWinner(secondPlayer);
 
     }
 
-    private boolean goalWinner(java.util.function.BiPredicate<Integer, Integer> seed,
-                                java.util.function.BiPredicate<Integer, Integer> goal,
-                                Player player)
+    private boolean goalWinner(Player player)
     {
         int rows = board().getRows();
         int cols = board().getCols();
@@ -117,19 +109,20 @@ public class GameController {
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (seed.test(row,col) && board.getPlayerAt(row, col).equals(player)) {
+                if (player.equals(currentPlayer()) && board.getPlayerAt(row, col).equals(player)) {
                     queue.push(new int[]{row, col});
                     visited[row][col] = true;
                 }
             }
         }
-
         while (!queue.isEmpty()) {
             int[] cell = queue.pop();
             int row = cell[0];
             int col = cell[1];
 
-            if(goal.test(row,col)) {
+            if(board.boundsWithin(row, col) &&
+                    ( ( col == board.getCols()-1) && player.equals(secondPlayer)
+                    || (row == board.getRows()-1) && player.equals(firstPlayer) )) {
                 return true;
             }
 
@@ -147,6 +140,7 @@ public class GameController {
             }
 
         }
+
         return false;
     }
 
