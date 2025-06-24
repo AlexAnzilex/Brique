@@ -32,9 +32,7 @@ public class Board {
     }
 
     public boolean isFree(int row, int col) {
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            throw new IndexOutOfBoundsException("Invalid position (" + row + "," + col + ")");
-        }
+        checkBounds(row, col);
         return grid[row][col].equals(defaultPlayer);
     }
 
@@ -64,6 +62,12 @@ public class Board {
 
     public boolean boundsWithin(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
+    }
+
+    private void checkBounds(int row, int col) {
+        if(!boundsWithin(row, col)) {
+            throw new IllegalArgumentException("Invalid position (" + row + "," + col + ")");
+        }
     }
 
 
