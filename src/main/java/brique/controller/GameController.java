@@ -51,6 +51,8 @@ public class GameController {
 
     public boolean pieRuleAvailable(){return turn == 2;}
 
+    public boolean isBlack(Player p){ return p.equals(firstPlayer);}
+
     public void applyPieMove() throws UnadmissibleMove {
         if (turn!=2) {
             throw new UnadmissibleMove("Can't execute pie rule in turn "+ turn);
@@ -60,17 +62,20 @@ public class GameController {
         }
 
         int row=-1;
+        int col=-1;
         search:
         for (int i = 0; i < board.getRows(); i++){
             for (int j = 0; j < board.getCols(); j++){
                 if (board.getPlayerAt(i,j).equals(firstPlayer)){
                     row=i;
-                    board.PlaceStonePieRule(new Move(i, j, secondPlayer));
+                    col=j;
                     break search;
                 }
             }
         }
         if (row<0) throw new IllegalStateException("Did not find the first player in board");
+
+        board.PlaceStonePieRule(row, col, secondPlayer, true);
 
         Player tmp = firstPlayer;
         firstPlayer = secondPlayer;

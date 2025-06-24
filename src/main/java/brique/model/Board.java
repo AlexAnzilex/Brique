@@ -45,13 +45,13 @@ public class Board {
         grid[move.getRow()][move.getCol()] = move.getPlayer();
     }
 
-    public void PlaceStonePieRule(Move move) {
-        checkBounds(move.getRow(), move.getCol());
-        if (move.isPieMove()) {
-            if (!isFree(move.getRow(), move.getCol()))
+    public void PlaceStonePieRule(int row, int col, Player player, boolean pieMove) {
+        checkBounds(row, col);
+        if (!pieMove) {
+            if (!isFree(row, col))
                 throw new IllegalArgumentException("Overwrite not allowed without Pie-Rule");
         }
-        grid[move.getRow()][move.getCol()] = move.getPlayer();
+        grid[row][col] = player;
     }
 
     public void PlaceStoneEscortRule(Move move) {
