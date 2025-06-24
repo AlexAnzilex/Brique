@@ -314,7 +314,6 @@ public class GameControllerTest {
                       {4,1},
                       {5,1},{5,2},{5,3},{5,4},{5,5},{5,6}
         };
-        game.makeMove(new Move(5,5, game.currentPlayer()));
         for (int[] pos : pos_list) {
             board.placeStone(pos[0], pos[1], player_2);
         }

@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,7 +60,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.BoardTest">
+  <component name="RunManager" selected="JUnit.GameControllerTest.player2SWin">
     <configuration name="BoardTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -112,54 +109,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="GameControllerTest.pieMoveFailIfNotTurn2" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;brique.GameControllerTest.pieMoveFailIfNotTurn2&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="GameControllerTest.pieRuleSuccess" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;brique.GameControllerTest.pieRuleSuccess&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="GameControllerTest.player2WinNotConnected" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -184,13 +133,44 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="GameControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Brique.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="brique.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="brique" />
+      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameControllerTest.player2SWin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Brique.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="brique.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="brique" />
+      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
+      <option name="METHOD_NAME" value="player2SWin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GameControllerTest.player2SWin" />
+        <item itemvalue="JUnit.GameControllerTest" />
         <item itemvalue="Gradle.BoardTest" />
         <item itemvalue="Gradle.GameControllerTest.player2WinNotConnected" />
         <item itemvalue="Gradle.GameControllerTest" />
-        <item itemvalue="Gradle.GameControllerTest.pieRuleSuccess" />
-        <item itemvalue="Gradle.GameControllerTest.pieMoveFailIfNotTurn2" />
       </list>
     </recent_temporary>
   </component>
@@ -222,7 +202,7 @@
       <workItem from="1750684489069" duration="5691000" />
       <workItem from="1750755136768" duration="7245000" />
       <workItem from="1750769506527" duration="900000" />
-      <workItem from="1750771731283" duration="2458000" />
+      <workItem from="1750771731283" duration="2909000" />
     </task>
     <servers />
   </component>
