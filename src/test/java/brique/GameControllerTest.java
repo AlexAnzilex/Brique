@@ -142,6 +142,9 @@ public class GameControllerTest {
 
         assertEquals(player_2, new_player_1);
         assertEquals(player_1, new_player_2);
+
+        assertEquals(game.currentPlayer(), new_player_2);
+        assertEquals(game.board().getPlayerAt(0,0), new_player_1);
     }
 
     @Test
