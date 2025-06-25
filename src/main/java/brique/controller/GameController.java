@@ -8,42 +8,43 @@ public class GameController {
     private final TurnManager turns;
     private final WinDetector winDetector;
 
-
     public GameController(Player player_1, Player player_2) {
+
+
         this.board = new Board();
         this.turns = new TurnManager(player_1, player_2);
         this.escortEngine = new EscortRuleEngine(board);
-        this.winDetector = new WinDetector(player_1, player_2);
+        this.winDetector = new WinDetector(turns);
     }
 
-    public Player getFirstPlayer() {
+    public Player getFirstPlayer()
+    {
         return turns.firstPlayer();
     }
-
-    public Player getSecondPlayer() {
+    public Player getSecondPlayer()
+    {
         return turns.secondPlayer();
     }
-
-    public Player currentPlayer() {
+    public Player currentPlayer()
+    {
         return turns.currentPlayer();
     }
-
-    public Board board() {
+    public Board board()
+    {
         return board;
     }
-
-    public int currentTurn() {
+    public int currentTurn()
+    {
         return turns.currentTurn();
     }
-
-    public void setTurnForTest(int t) {
+    public void setTurnForTest(int t)
+    {
         turns.setTurn(t);
     }
-
-    public boolean pieRuleAvailable() {
+    public boolean pieRuleAvailable()
+    {
         return turns.currentTurn() == 2;
     }
-
     public boolean isBlack(Player p) {
         return p.equals(turns.firstPlayer());
     }
@@ -56,32 +57,28 @@ public class GameController {
 
         int row = -1, col = -1;
         search:
-        for (int i = 0; i < board.getRows(); i++) {
-            for (int j = 0; j < board.getCols(); j++) {
+        for (int i = 0; i < board.getRows(); i++)
+            for (int j = 0; j < board.getCols(); j++)
                 if (board.getPlayerAt(i, j).equals(turns.firstPlayer())) {
                     row = i;
                     col = j;
                     break search;
                 }
-            }
-        }
-        if (row < 0) throw new IllegalStateException("Did not find the first player in board");
+        if (row < 0) throw new IllegalStateException("First player stone not found");
 
         board.placeStonePieRule(row, col, turns.secondPlayer());
         turns.swapPlayers();
     }
 
     public boolean makeMove(Move move) throws UnadmissibleMove {
-        if (move.isPieMove())
-            throw new UnadmissibleMove("Use applyPieRule()");
+        if (move.isPieMove()) throw new UnadmissibleMove("Use applyPieRule()");
         if (!move.getPlayer().equals(currentPlayer()))
             throw new UnadmissibleMove(move.getPlayer() + " is not your turn!");
         if (!board.isFree(move.getRow(), move.getCol()))
-            throw new UnadmissibleMove("The cell (" + move.getRow() + "," + move.getCol() + ") is already occupied!");
+            throw new UnadmissibleMove("Cell (" + move.getRow() + "," + move.getCol() + ") is already occupied!");
 
         board.placeStone(move);
         escortEngine.applyRules(move);
-        winDetector.hasWon(board, move.getPlayer());
         turns.nextTurn();
         return true;
     }

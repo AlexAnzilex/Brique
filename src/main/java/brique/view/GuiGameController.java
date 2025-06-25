@@ -14,8 +14,8 @@ class GuiGameController {
     private BoardPanel boardPanel;
     private JLabel lblBlack, lblWhite;
     private final JLabel status = new JLabel();
-    private boolean pieAsked  = false;
-    private int lastSeenTurn  = 1;
+    private boolean pieAsked = false;
+    private int lastSeenTurn = 1;
 
     GuiGameController(GameController core) {
         this.core = core;
@@ -29,12 +29,11 @@ class GuiGameController {
 
     void handleClick(int row, int col) {
         if (core.currentTurn() != lastSeenTurn) return;
-        Player mover = core.currentPlayer();
         try {
-            core.makeMove(new Move(row, col, mover));
+            core.makeMove(Move.normal(row, col, core.currentPlayer()));
             boardPanel.refresh();
             updateStatus();
-            checkWin(mover);
+            checkWin(core.currentPlayer());
             lastSeenTurn = core.currentTurn();
         } catch (UnadmissibleMove ex) {
             JOptionPane.showMessageDialog(boardPanel, ex.getMessage(),
@@ -42,9 +41,9 @@ class GuiGameController {
         }
     }
 
-
     private void updateStatus() {
-        status.setText("Turn " + core.currentTurn() + " – Playing: " + core.currentPlayer().name());
+        status.setText("Turn " + core.currentTurn() +
+                " – Playing: " + core.currentPlayer().name());
         askPieRule();
         updateHeader();
     }

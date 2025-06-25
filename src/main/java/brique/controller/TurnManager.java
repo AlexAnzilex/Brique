@@ -12,25 +12,12 @@ public class TurnManager {
         this.second = second;
     }
 
-    public int currentTurn() {
-        return turn;
-    }
+    public int currentTurn() { return turn; }
+    public Player currentPlayer() { return (turn % 2 == 1) ? first : second; }
+    public Player firstPlayer() { return first; }
+    public Player secondPlayer() { return second; }
 
-    public Player currentPlayer() {
-        return (turn % 2 == 1) ? first : second;
-    }
-
-    public Player firstPlayer() {
-        return first;
-    }
-
-    public Player secondPlayer() {
-        return second;
-    }
-
-    public void nextTurn() {
-        turn++;
-    }
+    public void nextTurn() { turn++; }
 
     public void swapPlayers() {
         Player tmp = first;
@@ -38,7 +25,5 @@ public class TurnManager {
         second = tmp;
     }
 
-    void setTurn(int t) {
-        this.turn = t;
-    }
+    void setTurn(int t) { this.turn = t; }
 }
