@@ -5,9 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/dependencies-accessors/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/8.10/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/brique/model/MoveType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/brique/view/GuiGameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/view/GuiGameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +46,17 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Brique" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -38,6 +69,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -49,7 +81,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
     "Gradle.BoardTest.executor": "Run",
+    "Gradle.Brique [:brique.Main.main()].executor": "Run",
     "Gradle.GameControllerTest.alternatePlayerTurn.executor": "Debug",
     "Gradle.GameControllerTest.executor": "Run",
     "Gradle.GameControllerTest.pieMoveFailIfNotTurn2.executor": "Run",
@@ -62,8 +97,12 @@
     "JUnit.GameControllerTest.executor": "Run",
     "JUnit.GameControllerTest.pieRuleSuccess.executor": "Run",
     "JUnit.GameControllerTest.player2SWin.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\nicom\\AppData\\Roaming\\JetBrains\\IntelliJIdea2025.1\\plugins\\Shell Script\\shellcheck.exe",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -74,11 +113,24 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.GameControllerTest">
+  <component name="RunManager" selected="Gradle.GameControllerTest">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="brique.Main" />
+      <module name="Brique.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="brique.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BoardTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -93,6 +145,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;brique.BoardTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GameControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;brique.GameControllerTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -133,45 +209,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameControllerTest.pieRuleSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="brique.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="brique" />
-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
-      <option name="METHOD_NAME" value="pieRuleSuccess" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameControllerTest.player2SWin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Brique.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="brique.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="brique" />
-      <option name="MAIN_CLASS_NAME" value="brique.GameControllerTest" />
-      <option name="METHOD_NAME" value="player2SWin" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameControllerTest" />
-        <item itemvalue="JUnit.GameControllerTest.pieRuleSuccess" />
-        <item itemvalue="JUnit.BoardTest" />
-        <item itemvalue="JUnit.GameControllerTest.player2SWin" />
+        <item itemvalue="Gradle.GameControllerTest" />
         <item itemvalue="Gradle.BoardTest" />
+        <item itemvalue="JUnit.BoardTest" />
+        <item itemvalue="JUnit.GameControllerTest" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -204,6 +248,10 @@
       <workItem from="1750755136768" duration="7245000" />
       <workItem from="1750769506527" duration="900000" />
       <workItem from="1750771731283" duration="3280000" />
+      <workItem from="1750835496312" duration="2139000" />
+      <workItem from="1750837661094" duration="321000" />
+      <workItem from="1750842913315" duration="3301000" />
+      <workItem from="1750852655178" duration="4809000" />
     </task>
     <servers />
   </component>

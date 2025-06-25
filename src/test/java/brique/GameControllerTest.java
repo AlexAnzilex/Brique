@@ -76,7 +76,7 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));
+        assertTrue(game.makeMove(Move.normal(0,0,game.currentPlayer())));
 
         assertEquals(player_1, game.board().getPlayerAt(0,0));
 
@@ -89,9 +89,9 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
 
         assertEquals(1, game.currentTurn());
-        assertTrue(game.makeMove(new Move(0,0,game.currentPlayer())));
+        assertTrue(game.makeMove(Move.normal(0,0,game.currentPlayer())));
         assertEquals(2, game.currentTurn());
-        assertTrue(game.makeMove(new Move(0,1,game.currentPlayer())));
+        assertTrue(game.makeMove(Move.normal(0,1,game.currentPlayer())));
         assertEquals(3, game.currentTurn());
     }
 
@@ -102,7 +102,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
 
         assertEquals(player_1, game.currentPlayer());
-        assertTrue(game.makeMove(new Move(0,0, game.currentPlayer())));
+        assertTrue(game.makeMove(Move.normal(0,0, game.currentPlayer())));
         assertEquals(player_2, game.currentPlayer());
     }
 
@@ -112,7 +112,7 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        Move invalidMove = new Move(0,0,player_2);
+        Move invalidMove = Move.normal(0,0,player_2);
         assertThrows(UnadmissibleMove.class, () -> game.makeMove(invalidMove));
     }
 
@@ -122,8 +122,8 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        assertDoesNotThrow(() -> game.makeMove(new Move(0,0,player_1)));
-        assertThrows(UnadmissibleMove.class, () -> game.makeMove(new Move(0,0,player_2)));
+        assertDoesNotThrow(() -> game.makeMove(Move.normal(0,0,player_1)));
+        assertThrows(UnadmissibleMove.class, () -> game.makeMove(Move.normal(0,0,player_2)));
 
     }
 
@@ -133,7 +133,7 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1, player_2);
 
-        game.makeMove(new Move(0, 0, player_1));
+        game.makeMove(Move.normal(0, 0, player_1));
         assertTrue(game.pieRuleAvailable());
         game.applyPieMove();
 
@@ -153,9 +153,9 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove(new Move(1,1,game.currentPlayer()));
+        game.makeMove(Move.normal(1,1,game.currentPlayer()));
 
-        game.makeMove(new Move(2, 2, game.currentPlayer()));
+        game.makeMove(Move.normal(2, 2, game.currentPlayer()));
 
         assertThrows(UnadmissibleMove.class, game::applyPieMove);
 
@@ -169,8 +169,8 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove(new Move(6,6,player_1));
-        Move WrongMove = new Move(7,7,player_2, true);
+        game.makeMove(Move.normal(6,6,player_1));
+        Move WrongMove = Move.pie(7,7,player_2);
         assertThrows(UnadmissibleMove.class, () -> game.makeMove(WrongMove));
     }
 
@@ -180,9 +180,9 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove( new Move(7, 9, player_1));
-        game.makeMove( new Move(0, 0, player_2));
-        game.makeMove( new Move(8, 8, player_1));
+        game.makeMove( Move.normal(7, 9, player_1));
+        game.makeMove( Move.normal(0, 0, player_2));
+        game.makeMove( Move.normal(8, 8, player_1));
 
         assertEquals(player_1, game.board().getPlayerAt(7,8));
 
@@ -194,9 +194,9 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove( new Move(7, 9, player_1));
-        game.makeMove( new Move(7, 8, player_2));
-        game.makeMove( new Move(8, 8, player_1));
+        game.makeMove( Move.normal(7, 9, player_1));
+        game.makeMove( Move.normal(7, 8, player_2));
+        game.makeMove( Move.normal(8, 8, player_1));
 
         assertEquals(player_1, game.board().getPlayerAt(7,8));
 
@@ -208,9 +208,9 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove( new Move(7, 8, player_1));
-        game.makeMove( new Move(0, 0, player_2));
-        game.makeMove( new Move(6, 9, player_1));
+        game.makeMove( Move.normal(7, 8, player_1));
+        game.makeMove( Move.normal(0, 0, player_2));
+        game.makeMove( Move.normal(6, 9, player_1));
 
         assertEquals(player_1, game.board().getPlayerAt(7,9));
     }
@@ -221,11 +221,11 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove( new Move(6, 9, player_1));
-        game.makeMove( new Move(0, 0, player_2));
-        game.makeMove( new Move(8, 7, player_1));
-        game.makeMove( new Move(0, 1, player_2));
-        game.makeMove( new Move(7, 8, player_1));
+        game.makeMove( Move.normal(6, 9, player_1));
+        game.makeMove( Move.normal(0, 0, player_2));
+        game.makeMove( Move.normal(8, 7, player_1));
+        game.makeMove( Move.normal(0, 1, player_2));
+        game.makeMove( Move.normal(7, 8, player_1));
 
         assertEquals(player_1, game.board().getPlayerAt(7,9));
         assertEquals(player_1, game.board().getPlayerAt(8,8));
@@ -245,9 +245,9 @@ public class GameControllerTest {
         Player player_2 = new Player("Player_2");
         GameController game = new GameController(player_1,player_2);
 
-        game.makeMove( new Move(0, 0, game.currentPlayer()));
-        game.makeMove( new Move(7, 7, game.currentPlayer()));
-        game.makeMove( new Move(1, 0, game.currentPlayer()));
+        game.makeMove( Move.normal(0, 0, game.currentPlayer()));
+        game.makeMove( Move.normal(7, 7, game.currentPlayer()));
+        game.makeMove( Move.normal(1, 0, game.currentPlayer()));
 
         assertFalse(game.winBoard());
     }
@@ -259,7 +259,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1, player_2);
         Board board = game.board();
         for (int row = 0; row < board.getRows() - 1; row++) {
-            board.placeStone(new Move(row, 0, player_1));
+            board.placeStone(Move.normal(row, 0, player_1));
         }
         assertFalse(game.winBoard());
     }
@@ -271,7 +271,7 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
         Board board = game.board();
         for (int row=0; row<board.getRows(); row++) {
-            board.placeStone(new Move(row,0, player_1));
+            board.placeStone(Move.normal(row,0, player_1));
         }
         assertTrue(game.winBoard());
     }
@@ -283,9 +283,9 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
         Board board = game.board();
 
-        game.makeMove(new Move(5,5, game.currentPlayer()));
+        game.makeMove(Move.normal(5,5, game.currentPlayer()));
         for (int col=0; col<board.getRows(); col++) {
-            board.placeStone(new Move(0, col, player_2));
+            board.placeStone(Move.normal(0, col, player_2));
         }
         assertTrue(game.winBoard());
     }
@@ -297,9 +297,9 @@ public class GameControllerTest {
         GameController game = new GameController(player_1,player_2);
         Board board = game.board();
 
-        game.makeMove(new Move(5,5, game.currentPlayer()));
+        game.makeMove(Move.normal(5,5, game.currentPlayer()));
         for (int col=0; col<board.getRows(); col++) {
-            board.placeStone(new Move(7, col, player_2));
+            board.placeStone(Move.normal(7, col, player_2));
         }
         assertTrue(game.winBoard());
     }
@@ -318,7 +318,7 @@ public class GameControllerTest {
                       {5,1},{5,2},{5,3},{5,4},{5,5},{5,6},{5,7},{5,8},{5,9},{5,10},{5,11},{5,12},{5,13},{5,14}
         };
         for (int[] pos : pos_list) {
-            board.placeStone(new Move(pos[0], pos[1], player_2));
+            board.placeStone(Move.normal(pos[0], pos[1], player_2));
         }
         assertTrue(game.winBoard());
     }

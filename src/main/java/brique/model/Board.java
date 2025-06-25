@@ -45,7 +45,7 @@ public class Board {
         grid[move.getRow()][move.getCol()] = move.getPlayer();
     }
 
-    public void PlaceStonePieRule(int row, int col, Player player, boolean pieMove) {
+    public void placeStonePieRule(int row, int col, Player player, boolean pieMove) {
         checkBounds(row, col);
         if (!pieMove) {
             if (!isFree(row, col))
@@ -54,7 +54,7 @@ public class Board {
         grid[row][col] = player;
     }
 
-    public void PlaceStoneEscortRule(Move move) {
+    public void placeStoneEscortRule(Move move) {
         if (!boundsWithin(move.getRow(), move.getCol())) return;
 
         Player cellPlayer = getPlayerAt(move.getRow(), move.getCol());

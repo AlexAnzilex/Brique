@@ -31,7 +31,7 @@ class GuiGameController {
         if (core.currentTurn() != lastSeenTurn) return;
         Player mover = core.currentPlayer();
         try {
-            core.makeMove(new Move(row, col, mover, false));
+            core.makeMove(new Move(row, col, mover));
             boardPanel.refresh();
             updateStatus();
             checkWin(mover);
