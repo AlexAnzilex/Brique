@@ -29,11 +29,13 @@ class GuiGameController {
 
     void handleClick(int row, int col) {
         if (core.currentTurn() != lastSeenTurn) return;
+
+        Player mover = core.currentPlayer();
         try {
-            core.makeMove(Move.normal(row, col, core.currentPlayer()));
+            core.makeMove(Move.normal(row, col, mover));
             boardPanel.refresh();
             updateStatus();
-            checkWin(core.currentPlayer());
+            checkWin(mover);
             lastSeenTurn = core.currentTurn();
         } catch (UnadmissibleMove ex) {
             JOptionPane.showMessageDialog(boardPanel, ex.getMessage(),
