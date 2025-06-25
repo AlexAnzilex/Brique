@@ -1,7 +1,11 @@
 package brique;
 
+import brique.view.BriqueFrame;
+
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Benvenuto in Brique!");
+        SwingUtilities.invokeLater(() -> new BriqueFrame().setVisible(true));
     }
 }
