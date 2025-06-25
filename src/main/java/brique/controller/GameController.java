@@ -75,7 +75,7 @@ public class GameController {
         }
         if (row<0) throw new IllegalStateException("Did not find the first player in board");
 
-        board.placeStonePieRule(row, col, secondPlayer, true);
+        board.placeStonePieRule(row, col, secondPlayer);
 
         Player tmp = firstPlayer;
         firstPlayer = secondPlayer;

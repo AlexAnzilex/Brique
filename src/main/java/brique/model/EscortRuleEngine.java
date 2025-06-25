@@ -22,10 +22,10 @@ public class EscortRuleEngine {
 
         Player cellPlayer = board.getPlayerAt(targetRow, targetCol);
         if ((targetRow + targetCol) % 2 == 0 && player.equals(cellPlayer)){
-            board.placeStoneEscortRule(new Move(targetRow , targetCol-1, player));
+            board.placeStoneEscortRule(Move.normal(targetRow , targetCol-1, player));
         }
         else if ((targetRow + targetCol) % 2 == 1 && player.equals(cellPlayer)){
-            board.placeStoneEscortRule(new Move(targetRow + 1, targetCol, player));
+            board.placeStoneEscortRule(Move.normal(targetRow + 1, targetCol, player));
         }
 
     }
@@ -34,10 +34,10 @@ public class EscortRuleEngine {
 
         Player cellPlayer = board.getPlayerAt(targetRow, targetCol);
         if ((targetRow + targetCol) % 2 == 0 && player.equals(cellPlayer)){
-            board.placeStoneEscortRule(new Move(targetRow - 1, targetCol, player));
+            board.placeStoneEscortRule(Move.normal(targetRow - 1, targetCol, player));
         }
         else if ((targetRow + targetCol) % 2 == 1 && player.equals(cellPlayer)){
-            board.placeStoneEscortRule(new Move(targetRow, targetCol + 1, player));
+            board.placeStoneEscortRule(Move.normal(targetRow, targetCol + 1, player));
         }
 
     }

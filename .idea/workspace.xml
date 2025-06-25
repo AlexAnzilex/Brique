@@ -5,30 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eccd0ae8-9978-4013-8170-e1ed43453dab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/checksums/checksums.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/dependencies-accessors/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/executionHistory/executionHistory.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/8.10/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/brique/model/MoveType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/EscortRuleEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/model/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/model/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/brique/view/GuiGameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/brique/view/GuiGameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/brique/GameControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +95,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.GameControllerTest">
+  <component name="RunManager" selected="Gradle.BoardTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="brique.Main" />
       <module name="Brique.main" />
@@ -211,8 +189,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.GameControllerTest" />
         <item itemvalue="Gradle.BoardTest" />
+        <item itemvalue="Gradle.GameControllerTest" />
         <item itemvalue="JUnit.BoardTest" />
         <item itemvalue="JUnit.GameControllerTest" />
         <item itemvalue="Application.Main" />
@@ -251,7 +229,7 @@
       <workItem from="1750835496312" duration="2139000" />
       <workItem from="1750837661094" duration="321000" />
       <workItem from="1750842913315" duration="3301000" />
-      <workItem from="1750852655178" duration="4809000" />
+      <workItem from="1750852655178" duration="6102000" />
     </task>
     <servers />
   </component>
